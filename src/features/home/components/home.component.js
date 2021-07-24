@@ -5,7 +5,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 
 const FeatureCardContainer = styled(Card)`
-  width: 150px;
+  width: 156px;
   padding: ${(props) => props.theme.space[2]};
   margin: ${(props) => props.theme.space[2]};
   display: flex;

@@ -29,10 +29,10 @@ export const HomeScreen = ({ navigation }) => {
           <FeatureCard title="Periodic Service" />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("MapScreen")}>
           <FeatureCard title="Mechanic Nearby" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("DocumentScreen")}>
           <FeatureCard title="Insurance & Emission Test Document" />
         </TouchableOpacity>
       </View>

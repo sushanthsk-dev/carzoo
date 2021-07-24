@@ -7,9 +7,10 @@ import { Text } from "../typography/text.component";
 import { Spacer } from "../spacer/spacer.component";
 
 const HeaderContainer = styled.View`
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 50px;
+  z-index: 888;
+  height: 56px;
   background-color: ${(props) => props.theme.colors.brand.primary};
   flex-direction: row;
   align-items: center;

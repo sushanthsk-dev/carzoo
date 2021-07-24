@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { PeriodicServiceContextProvider } from "./src/services/periodicservice/periodicservice.context";
 import { ThemeProvider } from "styled-components/native";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import {
@@ -9,11 +8,15 @@ import {
 } from "@expo-google-fonts/montserrat";
 
 import { theme } from "./src/infrastructure/theme";
-import { SafeArea } from "./src/components/utility/safe-area.component";
-import { Text } from "./src/components/typography/text.component";
 import { Navigation } from "./src/infrastructure/navigation";
-import { CartContextProvider } from "./src/services/Cart/cart.context";
-import { DateContextProvider } from "./src/services/date-time/dateTime.context";
+import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
+import styled from "styled-components";
+
+const SplashImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
 export default function App() {
   const [latoLoaded] = useLato({ Lato_400Regular });
   const [montserratLoaded] = useMontserrat({ Montserrat_400Regular });
@@ -21,16 +24,23 @@ export default function App() {
   if (!latoLoaded || !montserratLoaded) {
     return null;
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1800);
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <PeriodicServiceContextProvider>
-          <CartContextProvider>
-            <DateContextProvider>
-              <Navigation />
-            </DateContextProvider>
-          </CartContextProvider>
-        </PeriodicServiceContextProvider>
+        <AuthenticationContextProvider>
+          {isLoading ? (
+            <SplashImage source={require("./assets/logo.png")} />
+          ) : (
+            <Navigation />
+          )}
+        </AuthenticationContextProvider>
       </ThemeProvider>
       <StatusBar style="auto" />
     </>
