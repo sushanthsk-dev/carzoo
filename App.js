@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "styled-components/native";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import {
@@ -9,7 +9,6 @@ import {
 
 import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
-import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
 import styled from "styled-components";
 
 const SplashImage = styled.Image`
@@ -18,12 +17,9 @@ const SplashImage = styled.Image`
 `;
 
 export default function App() {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [latoLoaded] = useLato({ Lato_400Regular });
   const [montserratLoaded] = useMontserrat({ Montserrat_400Regular });
-
-  if (!latoLoaded || !montserratLoaded) {
-    return null;
-  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,16 +27,18 @@ export default function App() {
     }, 1800);
   }, []);
 
+  if (!latoLoaded || !montserratLoaded) {
+    return null;
+  }
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AuthenticationContextProvider>
-          {isLoading ? (
-            <SplashImage source={require("./assets/logo.png")} />
-          ) : (
-            <Navigation />
-          )}
-        </AuthenticationContextProvider>
+        {isLoading ? (
+          <SplashImage source={require("./assets/logo.png")} />
+        ) : (
+          <Navigation />
+        )}
       </ThemeProvider>
       <StatusBar style="auto" />
     </>
