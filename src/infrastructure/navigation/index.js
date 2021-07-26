@@ -4,7 +4,7 @@ import { AccountNavigator } from "./account.navigator";
 import { AppNavigator } from "./app.navigator";
 
 export const Navigation = () => {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   return (
     <NavigationContainer>
       {isAuthenticated ? <AppNavigator /> : <AccountNavigator />}
