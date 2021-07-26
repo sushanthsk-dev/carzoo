@@ -59,12 +59,18 @@ export const ProfileScreen = ({ navigation }) => {
             <ProfileFeatureList title="My Profile" />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => navigation.navigate("MyAddressScreen")}
+          >
+            <ProfileFeatureList title="My Address" />
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => navigation.navigate("MyOrderScreen")}
           >
-          <ProfileFeatureList title="My Order" />
+            <ProfileFeatureList title="My Order" />
           </TouchableOpacity>
-          <ProfileFeatureList title="My Car" />
-          <ProfileFeatureList title="Help" />
+          <TouchableOpacity onPress={() => navigation.navigate("MyCarScreen")}>
+            <ProfileFeatureList title="My Car" />
+          </TouchableOpacity>
         </ProfileFeaturesContainer>
         <SpacerView>
           <LogoutButton mode="outline" color="#6200EE">

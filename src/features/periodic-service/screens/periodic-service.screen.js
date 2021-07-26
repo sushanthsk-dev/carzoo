@@ -34,7 +34,7 @@ export const PeriodicServiceScreen = ({ navigation }) => {
   const { cart } = useContext(CartContext);
   return (
     <SafeArea>
-      <Header navigation={navigation} toLeft={true} />
+      <Header navigation={navigation} toLeft={true} title="Periodic Service" />
       {!!cart.id && <CartFloat navigation={navigation} />}
       <ScrollViewContainer>
         <ServiceImageContainer>

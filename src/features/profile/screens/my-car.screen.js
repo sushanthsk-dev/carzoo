@@ -19,6 +19,63 @@ const AddressButton = styled(Button)`
   width: 340px;
 `;
 
+const data = [
+  {
+    value: "Maruti Suzuki Baleno",
+    imgUrl:
+      "https://imgd.aeplcdn.com/664x374/cw/ec/37710/Maruti-Suzuki-Baleno-Right-Front-Three-Quarter-147420.jpg?wm=0&q=85",
+  },
+  {
+    value: "Maruti Suzuki Swift",
+    imgUrl:
+      "https://imgd.aeplcdn.com/664x374/n/cw/ec/54399/exterior-right-front-three-quarter-10.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Ertiga",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/35211/ertiga-exterior-right-front-three-quarter-141879.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Vitara Brezza",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/39028/marutisuzuki-vitara-brezza-right-front-three-quarter3.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Dzire",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/45691/marutisuzuki-dzire-right-front-three-quarter8.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Wagon R",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/34467/wagonr-exterior-right-front-three-quarter-3.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Celerio",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/31314/celerio-exterior-right-front-three-quarter-2.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Ignis",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/44409/marutisuzuki-ignis-right-front-three-quarter3.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Ciaz",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Eeco",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/n/cw/ec/9710/eeco-exterior-right-front-three-quarter-14.jpeg?q=85",
+  },
+  {
+    value: "Maruti Suzuki Alto",
+    imgUrl:
+      "https://imgd.aeplcdn.com/227x128/cw/ec/39013/Maruti-Suzuki-Alto-Right-Front-Three-Quarter-154833.jpg?wm=0&q=85",
+  },
+];
 export const MyCarScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [carModel, setCarModel] = useState(null);
@@ -38,124 +95,12 @@ export const MyCarScreen = ({ navigation }) => {
       modalYear: "",
     },
   });
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (d) => {
+    console.log(d);
     console.log(carModel, fuelType);
   };
-  // const data = [
-  //   {
-  //     brandName: "Maruti Suzuki Baleno",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/664x374/cw/ec/37710/Maruti-Suzuki-Baleno-Right-Front-Three-Quarter-147420.jpg?wm=0&q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Swift",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/664x374/n/cw/ec/54399/exterior-right-front-three-quarter-10.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Ertiga",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/35211/ertiga-exterior-right-front-three-quarter-141879.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Vitara Brezza",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/39028/marutisuzuki-vitara-brezza-right-front-three-quarter3.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Dzire",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/45691/marutisuzuki-dzire-right-front-three-quarter8.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Wagon R",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/34467/wagonr-exterior-right-front-three-quarter-3.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Celerio",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/31314/celerio-exterior-right-front-three-quarter-2.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Ignis",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/44409/marutisuzuki-ignis-right-front-three-quarter3.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Ciaz",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Eeco",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/n/cw/ec/9710/eeco-exterior-right-front-three-quarter-14.jpeg?q=85",
-  //   },
-  //   {
-  //     brandName: "Maruti Suzuki Alto",
-  //     imgUrl:
-  //       "https://imgd.aeplcdn.com/227x128/cw/ec/39013/Maruti-Suzuki-Alto-Right-Front-Three-Quarter-154833.jpg?wm=0&q=85",
-  //   },
-  // ];
-  const data = [
-    {
-      value: "Maruti Suzuki Baleno",
-      imgUrl:
-        "https://imgd.aeplcdn.com/664x374/cw/ec/37710/Maruti-Suzuki-Baleno-Right-Front-Three-Quarter-147420.jpg?wm=0&q=85",
-    },
-    {
-      value: "Maruti Suzuki Swift",
-      imgUrl:
-        "https://imgd.aeplcdn.com/664x374/n/cw/ec/54399/exterior-right-front-three-quarter-10.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Ertiga",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/35211/ertiga-exterior-right-front-three-quarter-141879.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Vitara Brezza",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/39028/marutisuzuki-vitara-brezza-right-front-three-quarter3.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Dzire",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/45691/marutisuzuki-dzire-right-front-three-quarter8.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Wagon R",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/34467/wagonr-exterior-right-front-three-quarter-3.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Celerio",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/31314/celerio-exterior-right-front-three-quarter-2.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Ignis",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/44409/marutisuzuki-ignis-right-front-three-quarter3.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Ciaz",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Eeco",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/n/cw/ec/9710/eeco-exterior-right-front-three-quarter-14.jpeg?q=85",
-    },
-    {
-      value: "Maruti Suzuki Alto",
-      imgUrl:
-        "https://imgd.aeplcdn.com/227x128/cw/ec/39013/Maruti-Suzuki-Alto-Right-Front-Three-Quarter-154833.jpg?wm=0&q=85",
-    },
-  ];
+
+
   let rawData = [{ value: "Petrol" }, { value: "Diesel" }];
   return (
     <SafeArea>

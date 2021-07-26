@@ -7,10 +7,11 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { InputController } from "../../../components/form-control/input-control.component";
 const DocumentContainer = styled(ScrollView)`
-  margin-top: 30px;
+  margin-top: 70px;
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  margin-left: auto;
+
+  margin-right: auto;
 `;
 
 const DocumentButton = styled(Button)`
@@ -20,7 +21,6 @@ const DocumentButton = styled(Button)`
 
 const CheckBoxView = styled.View`
   flex-direction: row;
-  margin-left: -60px;
   margin-top: 10px;
   align-items: center;
 `;

@@ -20,7 +20,7 @@ import { TouchableOpacity } from "react-native";
 const Container = styled.View`
   width: 100%;
 `;
-export const VerifyScreen = ({ navigation }) => {
+export const ForgotPasswordScreen = ({ navigation }) => {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,12 +35,8 @@ export const VerifyScreen = ({ navigation }) => {
           </Spacer>
         </TouchableOpacity>
         <AccountContainer>
-          <Spacer position="top" size="large" />
-          <Text variant="title">Verify your email</Text>
           <Spacer position="top" size="medium" />
-          <Text variant="body">
-            Please enter the 5 digit code sent to your email address
-          </Text>
+          <Text variant="body">Please enter your email address</Text>
           <Spacer position="top" size="medium" />
           <AuthInput
             label="Code"

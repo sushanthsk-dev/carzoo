@@ -5,7 +5,6 @@ import {
 } from "@react-navigation/stack";
 import { DocumentScreen } from "../../features/insurance-and-emission/screens/documents.screens";
 import { AddDocumentScreen } from "../../features/insurance-and-emission/screens/add-document.screen";
-import { HomeScreen } from "../../features/home/screens/home.screen";
 
 const DocumentStack = createStackNavigator();
 export const DocumentNavigator = () => {

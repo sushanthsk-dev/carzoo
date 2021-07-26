@@ -23,11 +23,7 @@ const HeaderText = styled.Text`
   font-size: ${(props) => props.theme.fontSizes.title};
   color: ${(props) => props.theme.colors.bg.primary};
 `;
-export const Header = ({
-  title = "Periodic Service",
-  toLeft = false,
-  navigation,
-}) => {
+export const Header = ({ title = "", toLeft = false, navigation }) => {
   return (
     <HeaderContainer toLeft={toLeft}>
       {!!toLeft && (

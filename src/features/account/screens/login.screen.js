@@ -15,7 +15,7 @@ const SignUpContainer = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: center;
-  margin-top: ${(props) => props.theme.space[4]};
+  margin-top: ${(props) => props.theme.space[3]};
 `;
 import {
   AccountBackground,

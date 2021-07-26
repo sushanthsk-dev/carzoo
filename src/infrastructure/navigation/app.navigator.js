@@ -36,6 +36,7 @@ const hideScreenArray = [
   "CartScreenInside",
   "DocumentScreen",
   "AddDocumentScreen",
+  "CheckoutScreen",
   "OrderSummary",
   "ProfileScreen",
   "MyProfileScreen",
@@ -61,19 +62,20 @@ export const AppNavigator = () => {
                       showLabel: false,
                     }}
                   >
-                    {/* <Tab.Screen
-        name="Home"
-        component={HomeNavigator}
-        options={({ route }) => ({
-          tabBarVisible: ((routes) => {
-            const routeName = getFocusedRouteNameFromRoute(routes) ?? "";
-            if (hideScreenArray.includes(routeName)) {
-              return false;
-            }
-            return true;
-          })(route),
-        })}
-      /> */}
+                    <Tab.Screen
+                      name="Home"
+                      component={HomeNavigator}
+                      options={({ route }) => ({
+                        tabBarVisible: ((routes) => {
+                          const routeName =
+                            getFocusedRouteNameFromRoute(routes) ?? "";
+                          if (hideScreenArray.includes(routeName)) {
+                            return false;
+                          }
+                          return true;
+                        })(route),
+                      })}
+                    />
                     {/* <Tab.Screen name="Cart" component={CartScreen} /> */}
                     <Tab.Screen name="Profile" component={ProfileNavigator} />
                   </Tab.Navigator>

@@ -17,23 +17,21 @@ const LogoImageContainer = styled.Image`
   transform: scale(0.6);
   margin: 6px auto;
 `;
-export const HomeScreen = ({ navigation }) => {
+export const AdminScreen = ({ navigation }) => {
   return (
     <SafeArea>
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
 
       <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("PeriodicServiceScreen")}
-        >
-          <FeatureCard title="Periodic Service" />
+        <TouchableOpacity onPress={() => navigation.navigate("AgentScreen")}>
+          <FeatureCard title="Manage Agent" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("MapScreen")}>
-          <FeatureCard title="Mechanic Nearby" />
+        <TouchableOpacity onPress={() => navigation.navigate("MechanicScreen")}>
+          <FeatureCard title="Manage Mechanic" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("DocumentScreen")}>
-          <FeatureCard title="Insurance & Emission Test Document" />
+        <TouchableOpacity onPress={() => navigation.navigate("OrderScreen")}>
+          <FeatureCard title="Manage Orders" />
         </TouchableOpacity>
       </View>
     </SafeArea>

@@ -11,7 +11,7 @@ import { InputController } from "../../../components/form-control/input-control.
 import { AddressContext } from "../../../services/address/address.context";
 
 const AddressContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 50px;
   flex: 1;
   align-items: center;
   justify-content: center;

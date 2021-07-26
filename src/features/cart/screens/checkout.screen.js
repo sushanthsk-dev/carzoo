@@ -40,6 +40,7 @@ const TimeContainer = styled.View`
 const PaymentContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
+  align-items: flex-end;
   padding: ${(props) => props.theme.space[2]};
 `;
 const BillContainer = styled.View`
@@ -72,11 +73,8 @@ export const CheckoutScreen = ({ navigation, route }) => {
   const { time, addTime, removeTime } = React.useContext(TimeContext);
   const { address } = React.useContext(AddressContext);
 
-  //const { servicePlan } = route.params;
-  const servicePlan = {
-    title: "Basic Service",
-    price: 1009,
-  };
+  const { servicePlan } = route.params;
+
   const setData = () => {
     const dateData = getDate();
     const timeData = getTime(dateData[0]);
@@ -220,19 +218,19 @@ export const CheckoutScreen = ({ navigation, route }) => {
             </View>
           </BillCard>
         </BillContainer>
-        <PaymentContainer>
-          <CancelButton labelStyle={{ fontSize: 16 }} mode="outlined">
-            Cancel
-          </CancelButton>
-          <Button
-            mode="contained"
-            labelStyle={{ fontSize: 16 }}
-            onPress={() => placeOrder()}
-          >
-            Place Order
-          </Button>
-        </PaymentContainer>
       </ScrollViewContainer>
+      <PaymentContainer>
+        <CancelButton labelStyle={{ fontSize: 16 }} mode="outlined">
+          Cancel
+        </CancelButton>
+        <Button
+          mode="contained"
+          labelStyle={{ fontSize: 16 }}
+          onPress={() => placeOrder()}
+        >
+          Place Order
+        </Button>
+      </PaymentContainer>
     </SafeArea>
   );
 };
