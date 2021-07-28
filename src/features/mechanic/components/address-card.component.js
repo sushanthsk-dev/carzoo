@@ -37,7 +37,7 @@ export const AddressCard = ({ navigation, address = {}, edit = true }) => {
             name="pencil"
             size={28}
             color="green"
-            onPress={() => navigation.navigate("AddressScreen")}
+            onPress={() => navigation.navigate("MechanicAddressScreen")}
           />
         </EditButton>
       )}

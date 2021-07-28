@@ -33,7 +33,9 @@ export const ChangePasswordScreen = ({ navigation }) => {
   const error = false;
   const isLoading = false;
 
-  const onChangePassword = () => {};
+  const onChangePassword = () => {
+    
+  };
 
   return (
     <SafeArea>
@@ -78,7 +80,7 @@ export const ChangePasswordScreen = ({ navigation }) => {
               <AuthButton
                 mode="contained"
                 onPress={() =>
-                  onChangePassword(email, password, repeatedpassword)
+                  navigation.navigate("DropMechanicLocationScreen")
                 }
               >
                 Update Password

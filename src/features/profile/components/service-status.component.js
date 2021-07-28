@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import styled from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Text } from "../../../components/typography/text.component";
@@ -32,7 +33,6 @@ export const ServiceStatus = () => {
   const status = ["Ordered", "Pickedup", "Servicing", "Deliveried"];
   const currentStatus = status.indexOf("Pickedup");
 
-  // if index < currentStatus then color it
   return (
     <ServiceStatusContainer>
       <StatusCard>
@@ -63,8 +63,6 @@ export const ServiceStatus = () => {
         </Spacer>
         <Text variant="caption">Deliveried</Text>
       </SpacerView>
-
-
     </ServiceStatusContainer>
   );
 };

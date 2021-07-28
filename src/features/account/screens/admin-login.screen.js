@@ -13,12 +13,6 @@ const ForgotPasswordContainer = styled.View`
   justify-content: flex-end;
   margin-top: ${(props) => props.theme.space[3]};
 `;
-const SignUpContainer = styled.View`
-  width: 100%;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: ${(props) => props.theme.space[3]};
-`;
 
 import {
   AccountBackground,
@@ -30,7 +24,7 @@ import {
   LinkText,
 } from "../components/account.styles";
 import { TouchableWithoutFeedback } from "react-native";
-export const LoginScreen = ({ navigation }) => {
+export const AdminLoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const { onLogin, isLoading, error } = useContext(AuthenticationContext);
@@ -39,6 +33,7 @@ export const LoginScreen = ({ navigation }) => {
   return (
     <AccountBackground>
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
+      <Text variant="title">Admin Login</Text>
       <AccountContainer>
         <AuthInput
           label="Email"
@@ -79,22 +74,14 @@ export const LoginScreen = ({ navigation }) => {
           )}
         </Spacer>
         <ForgotPasswordContainer>
-          <TouchableWithoutFeedback onPress={() => console.log("Hello")}>
+          <TouchableWithoutFeedback onPress={() => console.log("Forget")}>
             <LinkText variant="body">Forget Password?</LinkText>
           </TouchableWithoutFeedback>
         </ForgotPasswordContainer>
-        <SignUpContainer>
-          <Text>Don't have account? </Text>
-          <TouchableWithoutFeedback onPress={() => console.log("Wow")}>
-            <LinkText variant="body">Sign up</LinkText>
-          </TouchableWithoutFeedback>
-        </SignUpContainer>
       </AccountContainer>
       <Spacer>
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate("AdminLogin")}
-        >
-          <LinkText variant="body">Admin Login</LinkText>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")}>
+          <LinkText variant="body">User Login</LinkText>
         </TouchableWithoutFeedback>
       </Spacer>
     </AccountBackground>

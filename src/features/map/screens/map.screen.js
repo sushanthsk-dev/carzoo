@@ -49,7 +49,7 @@ const CloseButton = styled(TouchableOpacity)`
   top: 5px;
   left: 5px;
 `;
-const RestaurantMap = ({ navigation }) => {
+const MechanicMap = ({ navigation }) => {
   const { mechanics } = useContext(LocationContext);
   const [KM, setKM] = useState(1000);
   const [currentMechanic, setCurrentMechanic] = useState(null);
@@ -191,5 +191,5 @@ export const MapScreen = ({ navigation }) => {
       </SafeArea>
     );
   }
-  return <RestaurantMap navigation={navigation} />;
+  return <MechanicMap navigation={navigation} />;
 };

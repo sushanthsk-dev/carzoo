@@ -3,17 +3,15 @@ import styled from "styled-components/native";
 import { Text } from "../../../components/typography/text.component";
 import { Entypo } from "@expo/vector-icons";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { ProfilePhotoContainer } from "./profile-photo-container.component";
+import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 const AgentCardContainer = styled.View`
-  background-color: ${(props) => props.theme.colors.ui.tertiary};
   flex-direction: row;
+  width: 100%;
   align-items: center;
-  border-radius: 5px;
-  margin: ${(props) => props.theme.space[1]};
-  padding: ${(props) => props.theme.space[1]};
-`;
-const LocationContainer = styled.View`
-  flex-direction: row;
+  padding: ${(props) => props.theme.space[0]};
+  margin: 1px ${(props) => props.theme.space[1]};
+  border-bottom-width: 0.5px;
+  border-color: grey;
 `;
 
 const SpacerView = styled.View`
@@ -22,9 +20,11 @@ const SpacerView = styled.View`
 const AgentDetails = styled.View`
   flex: 1;
   flex-direction: row;
+  align-items: center;
+  padding-right: ${(props) => props.theme.space[3]};
   justify-content: space-between;
 `;
-export const AgentCard = () => {
+export const ProfileCard = ({ name }) => {
   return (
     <AgentCardContainer>
       <ProfilePhotoContainer size="60px" />
@@ -32,14 +32,10 @@ export const AgentCard = () => {
         <SpacerView>
           <Text variant="subTitle">Rohith Sharma</Text>
           <Spacer>
-            <Text variant="subHead">987653100</Text>
+            <Text variant="caption">Moodbidri</Text>
           </Spacer>
         </SpacerView>
-
-        <LocationContainer>
-          <Entypo name="location-pin" size={18} color="black" />
-          <Text>Moodbidri</Text>
-        </LocationContainer>
+        <Text>{name}</Text>
       </AgentDetails>
     </AgentCardContainer>
   );
