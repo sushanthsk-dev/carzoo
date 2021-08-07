@@ -63,6 +63,7 @@ export const CartScreen = ({ route, navigation }) => {
       return setPincodeError("Enter the correct pincode format");
     }
     if (pincode != 574227) {
+      setDisable(true);
       return setPincodeError(
         "Sorry the service is not available in the entered pincode"
       );
@@ -130,11 +131,16 @@ export const CartScreen = ({ route, navigation }) => {
           </CartContainer>
           <CheckoutButton
             disabled={disable}
-            onPress={() =>
-              navigation.navigate("CheckoutScreen", {
-                servicePlan: servicePlan,
-              })
-            }
+            onPress={() => {
+              console.log("HE", typeof pincode);
+              if (parseInt(pincode) === 574227) {
+                navigation.navigate("CheckoutScreen", {
+                  servicePlan: servicePlan,
+                });
+              } else {
+                onSubmit();
+              }
+            }}
           >
             Go to Checkout
           </CheckoutButton>

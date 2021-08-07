@@ -15,6 +15,7 @@ import { DocumentNavigator } from "./document.navigator";
 import { AddDocumentScreen } from "../../features/insurance-and-emission/screens/add-document.screen";
 import { MapScreen } from "../../features/map/screens/map.screen";
 import { MechanicScreen } from "../../features/mechanic/screens/mechanic.screen";
+import { MyCarScreen } from "../../features/profile/screens/my-car.screen";
 
 const HomeStack = createStackNavigator();
 export const HomeNavigator = () => {
@@ -28,6 +29,8 @@ export const HomeNavigator = () => {
         component={HomeScreen}
         screenOptions={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
       />
+
+      <HomeStack.Screen name="CarScreen" component={MyCarScreen} />
       <HomeStack.Screen
         name="PeriodicServiceScreen"
         component={PeriodicServiceScreen}

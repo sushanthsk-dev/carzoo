@@ -10,6 +10,7 @@ import { Header } from "../../../components/header/header.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 
 const Container = styled(ScrollView)`
@@ -49,8 +50,7 @@ const LogoutButton = styled(Button)`
 `;
 
 export const AgentProfileScreen = ({ navigation, route }) => {
-  const isLoading = false;
-
+  const { onLogout, user } = React.useContext(AuthenticationContext);
   return (
     <SafeArea>
       <Header title="Agent Details" toLeft={true} navigation={navigation} />
@@ -61,24 +61,24 @@ export const AgentProfileScreen = ({ navigation, route }) => {
         <Details>
           <SpacerView>
             <TextData variant="subHead">Name</TextData>
-            <TextData variant="body">Virat</TextData>
+            <TextData variant="body">{user.name}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Email</TextData>
-            <TextData variant="body">xys@gmail.com</TextData>
+            <TextData variant="body">{user.email}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Work assigned location</TextData>
-            <TextData variant="body">Moodbidri</TextData>
+            <TextData variant="body">{user.workAssignedLocation}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Role</TextData>
-            <TextData variant="body">Agent</TextData>
+            <TextData variant="body">{user.role}</TextData>
           </SpacerView>
         </Details>
       </Container>
       <LogoutSpacerView>
-        <LogoutButton mode="outline" color="#6200EE">
+        <LogoutButton mode="outline" color="#6200EE" onPress={() => onLogout()}>
           Logout
         </LogoutButton>
       </LogoutSpacerView>

@@ -3,11 +3,14 @@ import styled from "styled-components/native";
 import { View, ScrollView, KeyboardAvoidingView } from "react-native";
 import { Button, ActivityIndicator, Colors } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { IPADDRESS } from "../../../utils/env";
 import { Header } from "../../../components/header/header.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { InputController } from "../../../components/form-control/input-control.component";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { AddressContext } from "../../../services/address/address.context";
 
 const AddressContainer = styled.View`
@@ -28,7 +31,9 @@ const AddressButton = styled(Button)`
 `;
 
 export const AddressScreen = ({ navigation }) => {
-  const { address, addAddress, isLoading } = useContext(AddressContext);
+  const [loading, setloading] = useState(false);
+  const { address, addAddress, isLoading, setAddress, error, setError } =
+    useContext(AddressContext);
   const {
     register,
     setPlaceValue,
@@ -38,19 +43,43 @@ export const AddressScreen = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      address: address !== null ? address.address : "",
-      city: address !== null ? address.city : "",
-      pincode: address !== null ? address.pincode : "",
-      state: address !== null ? address.state : "",
-      phoneno: address !== null ? address.phoneno : "",
+      address: address ? address.address : "",
+      city: address ? address.city : "",
+      pincode: address ? address.pincode : "",
+      state: address ? address.state : "",
+      phoneno: address ? address.phoneno.toString() : "",
     },
   });
-  const onSubmit = (data) => {
-    addAddress(data);
-    setTimeout(() => {
-      navigation.navigate("CheckoutScreen");
-    }, 100);
+
+  const { getLoggedSession } = useContext(AuthenticationContext);
+  const onSubmit = async (data) => {
+    setloading(true);
+    const value = await getLoggedSession();
+    try {
+      const res = await axios({
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${value.token}` },
+        url: `${IPADDRESS}/api/v1/users/updateMe`,
+        data: {
+          phoneno: data.phoneno, 
+          address: address,
+        },
+      });
+      if (res.data.status === "success") {
+        setAddress(res.data.data.address);
+        setloading(false);
+        navigation.navigate("CheckoutScreen");
+      }
+      setloading(false);
+    } catch (e) {
+      setError(e.response.data.message);
+      setloading(false);
+    }
+    // ``    setTimeout(() => {
+    //       navigation.navigate("CheckoutScreen");
+    //     }, 100);``
   };
+
   return (
     <SafeArea>
       <Header title="Manage Address" toLeft={true} navigation={navigation} />
@@ -77,6 +106,8 @@ export const AddressScreen = ({ navigation }) => {
                   label="Pincode(Required)*"
                   rules={{ required: true }}
                   name="pincode"
+                  readOnly={true}
+                  defaultValue={574227}
                   divide={true}
                   text={false}
                   control={control}
@@ -123,7 +154,7 @@ export const AddressScreen = ({ navigation }) => {
               )}
             </Spacer>
             <Spacer size="four_large">
-              {!isLoading ? (
+              {!isLoading || !loading ? (
                 <AddressButton
                   mode="contained"
                   onPress={handleSubmit(onSubmit)}

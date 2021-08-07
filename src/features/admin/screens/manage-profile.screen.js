@@ -17,6 +17,6 @@ const OrderContainer = styled.View`
 
 export const ManageProfileScreen = ({ navigation, route }) => {
   const { name = "agent" } = route.params;
-
+  
   return <ManageProfile navigation={navigation} name={name} />;
 };

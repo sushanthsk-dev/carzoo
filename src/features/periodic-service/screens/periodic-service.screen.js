@@ -7,6 +7,7 @@ import { Header } from "../../../components/header/header.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { CartContext } from "../../../services/Cart/cart.context";
 import { PeriodicServiceContext } from "../../../services/periodicservice/periodicservice.context";
 import { PeriodicServiceInfo } from "../components/periodic-service-info.component";
@@ -30,8 +31,11 @@ const ScrollViewContainer = styled(ScrollView)`
   margin-top: 56px;
 `;
 export const PeriodicServiceScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const { periodicServicePlans } = useContext(PeriodicServiceContext);
+
   const { cart } = useContext(CartContext);
+
   return (
     <SafeArea>
       <Header navigation={navigation} toLeft={true} title="Periodic Service" />

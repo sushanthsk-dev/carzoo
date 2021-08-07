@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
@@ -31,11 +31,12 @@ import {
 } from "../components/account.styles";
 import { TouchableWithoutFeedback } from "react-native";
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const { onLogin, isLoading, error } = useContext(AuthenticationContext);
-  const error = false;
-  const isLoading = false;
+  const [email, setEmail] = useState("Kyle@gmail.com");
+  const [password, setPassword] = useState("test1234");
+  const { onLogin, isLoading, error, setError } = useContext(
+    AuthenticationContext
+  );
+
   return (
     <AccountBackground>
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
@@ -61,7 +62,7 @@ export const LoginScreen = ({ navigation }) => {
         {error && (
           <Spacer size="large">
             <ErrorContainer>
-              <Text variant="error">{error.split(": ")[1]}</Text>
+              <Text variant="error">{error}</Text>
             </ErrorContainer>
           </Spacer>
         )}
@@ -85,14 +86,19 @@ export const LoginScreen = ({ navigation }) => {
         </ForgotPasswordContainer>
         <SignUpContainer>
           <Text>Don't have account? </Text>
-          <TouchableWithoutFeedback onPress={() => console.log("Wow")}>
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate("Register")}
+          >
             <LinkText variant="body">Sign up</LinkText>
           </TouchableWithoutFeedback>
         </SignUpContainer>
       </AccountContainer>
       <Spacer>
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate("AdminLogin")}
+          onPress={() => {
+            setError(null);
+            navigation.navigate("AdminLogin");
+          }}
         >
           <LinkText variant="body">Admin Login</LinkText>
         </TouchableWithoutFeedback>

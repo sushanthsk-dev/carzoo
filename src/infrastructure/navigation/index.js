@@ -6,24 +6,24 @@ import { AdminHomeNavigator } from "./admin-home.navigator";
 import { AgentHomeNavigator } from "./agent.navigator";
 import { MechanicHomeNavigator } from "./mechanic-home.navigator";
 import { MechanicNavigator } from "./mechanic.navigator";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 export const Navigation = () => {
-  const isAuthenticated = true;
-  const role = "mechanic";
+  const { isAuthenticated, user } = React.useContext(AuthenticationContext);
+
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        role ? (
-          role === "agent" ? (
-            <AgentHomeNavigator />
-          ) : role === "mechanic" ? (
-            <MechanicNavigator />
-          ) : (
-            <AdminHomeNavigator />
-          )
+        !!user.role &&
+        (user.role === "agent" ? (
+          <AgentHomeNavigator />
+        ) : user.role === "mechanic" ? (
+          <MechanicNavigator />
+        ) : user.role === "admin" ? (
+          <AdminHomeNavigator />
         ) : (
           <AppNavigator />
-        )
+        ))
       ) : (
         <AccountNavigator />
       )}

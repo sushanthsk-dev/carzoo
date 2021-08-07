@@ -68,7 +68,7 @@ const MechanicMap = ({ navigation }) => {
     longitude: 75.005192,
   });
   const [lagDelta, setLagDelta] = useState(0.033);
-  const { latitude, longitude } = coordinate;
+  const [longitude, latitude] = coordinate;
   const LATLNG = {
     latitude: 13.077680131725623,
     longitude: 75.00013064593077,

@@ -61,7 +61,7 @@ export const OrderSummary = ({ navigation }) => {
             </SpacerView>
             <SpacerView>
               <Text variant="label">Reg no : </Text>
-              <Text variant="subHead">KA19 HA-2027</Text>
+              <Text variant="subHead">KA19HA2027</Text>
             </SpacerView>
           </Spacer>
         </OrderCard>

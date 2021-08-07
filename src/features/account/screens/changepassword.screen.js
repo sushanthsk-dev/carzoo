@@ -7,7 +7,7 @@ import { Header } from "../../../components/header/header.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-// import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 import {
   AccountBackground,
@@ -26,15 +26,16 @@ const SignInContainer = styled.View`
   margin-top: ${(props) => props.theme.space[3]};
 `;
 
-export const ChangePasswordScreen = ({ navigation }) => {
-  const [password, setPassword] = useState("");
-  const [repeatedpassword, setRepeatedPassword] = useState("");
-  // const { onRegister, isLoading, error } = useContext(AuthenticationContext);
-  const error = false;
-  const isLoading = false;
+export const ChangePasswordScreen = ({ navigation, route }) => {
+  const { oldPassword, id } = route.params;
+  const [password, setPassword] = useState("test12345");
+  const [repeatedPassword, setRepeatedPassword] = useState("test12345");
+  const { onPasswordChange, isLoading, error } = useContext(
+    AuthenticationContext
+  );
 
   const onChangePassword = () => {
-    
+    onPasswordChange(oldPassword, password, repeatedPassword, id);
   };
 
   return (
@@ -61,7 +62,7 @@ export const ChangePasswordScreen = ({ navigation }) => {
           <Spacer size="large">
             <AuthInput
               label="Repeat Password"
-              value={repeatedpassword}
+              value={repeatedPassword}
               textContentType="password"
               secureTextEntry={true}
               autoCapitalize="none"
@@ -71,18 +72,13 @@ export const ChangePasswordScreen = ({ navigation }) => {
           {error && (
             <Spacer size="large">
               <ErrorContainer>
-                <Text variant="error">{error.split(": ")[1]}</Text>
+                <Text variant="error">{error}</Text>
               </ErrorContainer>
             </Spacer>
           )}
           <Spacer size="large">
             {!isLoading ? (
-              <AuthButton
-                mode="contained"
-                onPress={() =>
-                  navigation.navigate("DropMechanicLocationScreen")
-                }
-              >
+              <AuthButton mode="contained" onPress={onChangePassword}>
                 Update Password
               </AuthButton>
             ) : (

@@ -40,9 +40,10 @@ const SpacerView = styled.View`
 
 export const ProfileViewScreen = ({ navigation, route }) => {
   const isLoading = false;
-  const { name } = route.params;
+  const { name, user } = route.params;
+  console.log(user);
   const onSubmit = () => {
-    Alert.alert("Are you want to deactivate", "", [
+    Alert.alert("Are you sure you want to deactivate", "", [
       {
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -61,19 +62,19 @@ export const ProfileViewScreen = ({ navigation, route }) => {
         <Details>
           <SpacerView>
             <TextData variant="subHead">Name</TextData>
-            <TextData variant="body">Virat</TextData>
+            <TextData variant="body">{user.name}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Email</TextData>
-            <TextData variant="body">xys@gmail.com</TextData>
+            <TextData variant="body">x{user.email}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Work assigned location</TextData>
-            <TextData variant="body">Moodbidri</TextData>
+            <TextData variant="body">{user.workAssignedLocation}</TextData>
           </SpacerView>
           <SpacerView>
             <TextData variant="subHead">Role</TextData>
-            <TextData variant="body">{name}</TextData>
+            <TextData variant="body">{user.role}</TextData>
           </SpacerView>
         </Details>
         <Spacer size="larger" position="bottom">

@@ -38,19 +38,18 @@ export const AddUserScreen = ({ navigation, route }) => {
   } = useForm({
     defaultValues: {
       name: user !== null ? user.name : "",
-      email: user !== null ? user.pincode : "",
-      location: user !== null ? user.phoneno : "",
+      email: user !== null ? user.email : "",
+      location: user !== null ? user.location : "",
       phoneno: user !== null ? user.phoneno : "",
+      pincode: user !== null ? user.pincode : "",
       role: user !== null ? user.role : name === "agent" ? "agent" : "mechanic",
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
     setTimeout(() => {
       navigation.goBack();
     }, 100);
   };
-  console.log(errors);
   return (
     <SafeArea>
       <Header
@@ -127,7 +126,7 @@ export const AddUserScreen = ({ navigation, route }) => {
                 control={control}
               />
               {errors.pincode && (
-                <Text variant="error">Please enter pincode is required</Text>
+                <Text variant="error">Please enter pincode</Text>
               )}
             </Spacer>
             <Spacer size="larger">

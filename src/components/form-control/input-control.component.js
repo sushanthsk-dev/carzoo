@@ -51,6 +51,7 @@ export const InputController = ({
             label={label}
             value={value}
             onChangeText={(v) => onChange(v)}
+            editable={!readOnly}
           />
         ) : (
           <CityInput
@@ -62,7 +63,7 @@ export const InputController = ({
         );
       }}
       name={name}
-      rules={{ required: true }}
+      rules={rules}
     />
   );
 };

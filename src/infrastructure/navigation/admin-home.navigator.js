@@ -32,7 +32,8 @@ const screenOptions = ({ route }) => {
 };
 const hideScreenArray = [
   "ProfileViewScreen",
-  "ManageProfileScreen"
+  "ManageProfileScreen",
+  "AddUserScreen"
 ];
 
 export const AdminHomeNavigator = () => {

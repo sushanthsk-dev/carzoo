@@ -1,11 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
-import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const ForgotPasswordContainer = styled.View`
   width: 100%;
@@ -24,12 +22,22 @@ import {
   LinkText,
 } from "../components/account.styles";
 import { TouchableWithoutFeedback } from "react-native";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 export const AdminLoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const { onLogin, isLoading, error } = useContext(AuthenticationContext);
-  const error = false;
-  const isLoading = false;
+  const [email, setEmail] = useState("rahul@gmail.com");
+  const [password, setPassword] = useState("Ya5S3U5g");
+  const isAdmin = true;
+  const { onLogin, isLoading, error, response,setError } = useContext(
+    AuthenticationContext
+  );
+  useEffect(() => {
+    if (response !== null) {
+      navigation.navigate("ChangePassword", {
+        oldPassword: password,
+        id: response.id,
+      });
+    }
+  }, [response]);
   return (
     <AccountBackground>
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
@@ -56,7 +64,7 @@ export const AdminLoginScreen = ({ navigation }) => {
         {error && (
           <Spacer size="large">
             <ErrorContainer>
-              <Text variant="error">{error.split(": ")[1]}</Text>
+              <Text variant="error">{error}</Text>
             </ErrorContainer>
           </Spacer>
         )}
@@ -65,7 +73,7 @@ export const AdminLoginScreen = ({ navigation }) => {
             <AuthButton
               icon="lock-open-outline"
               mode="contained"
-              onPress={() => onLogin(email, password)}
+              onPress={() => onLogin(email, password, isAdmin)}
             >
               Login
             </AuthButton>
@@ -80,7 +88,12 @@ export const AdminLoginScreen = ({ navigation }) => {
         </ForgotPasswordContainer>
       </AccountContainer>
       <Spacer>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setError(null);
+            navigation.navigate("Login");
+          }}
+        >
           <LinkText variant="body">User Login</LinkText>
         </TouchableWithoutFeedback>
       </Spacer>

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { IPADDRESS } from "../../../utils/env";
 import { View, TouchableOpacity, ScrollView } from "react-native";
-import { Entypo, AntDesign } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import styled from "styled-components/native";
+import axios from "axios";
 import { Header } from "../../../components/header/header.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { ProfileCard } from "../components/profile-card.component";
-import { Text } from "../../../components/typography/text.component";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -34,20 +36,34 @@ const AddButton = styled(TouchableOpacity)`
 `;
 
 export const ManageProfile = ({ navigation, name }) => {
+  const { getLoggedSession } = React.useContext(AuthenticationContext);
+  const [user, setUser] = useState([]);
+
   const ActiveUser = () => {
     return (
       <>
         <CardContainer>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("ProfileViewScreen", { name: name })
-            }
-          >
+          {user ? (
+            user.map((u) => {
+              return (
+                u.active === true && (
+                  <TouchableOpacity
+                    key={u._id}
+                    onPress={() =>
+                      navigation.navigate("ProfileViewScreen", {
+                        name: name,
+                        user: u,
+                      })
+                    }
+                  >
+                    <ProfileCard key={u._id} name={u.role} user={u} />
+                  </TouchableOpacity>
+                )
+              );
+            })
+          ) : (
             <ProfileCard name={name} />
-          </TouchableOpacity>
-          <ProfileCard name={name} />
-          <ProfileCard name={name} />
-          <ProfileCard name={name} />
+          )}
         </CardContainer>
         <AddButton
           onPress={() => navigation.navigate("AddUserScreen", { name: name })}
@@ -57,16 +73,55 @@ export const ManageProfile = ({ navigation, name }) => {
       </>
     );
   };
+
   const DeactivedUser = () => {
     return (
       <CardContainer>
-        <ProfileCard name={name} />
-        <ProfileCard name={name} />
-        <ProfileCard name={name} />
+        {user ? (
+          user.map((u) => {
+            return (
+              u.active === false && (
+                <TouchableOpacity
+                  key={u._id}
+                  onPress={() =>
+                    navigation.navigate("ProfileViewScreen", {
+                      name: name,
+                      user: u,
+                    })
+                  }
+                >
+                  <ProfileCard key={u._id} name={u.role} user={u} />
+                </TouchableOpacity>
+              )
+            );
+          })
+        ) : (
+          <ProfileCard name={name} />
+        )}
       </CardContainer>
     );
   };
 
+  const getUser = async () => {
+    try {
+      const value = await getLoggedSession();
+      const res = await axios({
+        method: "GET",
+        url: `${IPADDRESS}/api/v1/admin?role=agent`,
+        headers: { Authorization: `Bearer ${value.token}` },
+      });
+      setUser(res.data.data.doc);
+    } catch (e) {
+      console.log(e.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+    user.map((u) => {
+      console.log("Map", u.name);
+    });
+  }, []);
   return (
     <SafeArea>
       <Header toLeft={true} navigation={navigation} title={`Manage ${name}`} />

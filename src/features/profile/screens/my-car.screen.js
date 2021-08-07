@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components/native";
 import { Button, ActivityIndicator, Colors } from "react-native-paper";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { IPADDRESS } from "../../../utils/env";
 import { Header } from "../../../components/header/header.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Dropdown } from "react-native-material-dropdown-v2";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { InputController } from "../../../components/form-control/input-control.component";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 const CarContainer = styled.View`
   margin-top: 56px;
 `;
@@ -77,9 +80,17 @@ const data = [
   },
 ];
 export const MyCarScreen = ({ navigation }) => {
+  const { getLoggedSession, user } = React.useContext(AuthenticationContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [carModel, setCarModel] = useState(null);
-  const [fuelType, setfuelType] = useState(null);
+  const [carModel, setCarModel] = useState(
+    user.carModel ? user.carModel : null
+  );
+  const [errorCarModel, setErrorCarModel] = useState(false);
+  const [errorFuelType, setErrorFuelType] = useState(false);
+  const [fuelType, setfuelType] = useState(
+    user.fuelType ? user.fuelType : null
+  );
+
   const {
     register,
     setPlaceValue,
@@ -91,57 +102,110 @@ export const MyCarScreen = ({ navigation }) => {
     defaultValues: {
       carModel: "",
       fuelType: "",
-      regNo: "",
-      modalYear: "",
+      registrationNo: user.registrationNo ? user.registrationNo : "",
+      modelYear: user.modelYear ? user.modelYear : "",
     },
   });
-  const onSubmit = (d) => {
-    console.log(d);
-    console.log(carModel, fuelType);
+  console.log(errors);
+  const onSubmit = async (carData) => {
+    const value = await getLoggedSession();
+    carData.carModel = carModel;
+    carData.fuelType = fuelType;
+    setErrorCarModel(false);
+    setErrorFuelType(false);
+    if (carModel === null) {
+      setErrorCarModel(true);
+    }
+    if (fuelType === null) {
+      setErrorFuelType(true);
+    }
+    if (errorCarModel || errorFuelType) {
+      return;
+    }
+    try {
+      const res = await axios({
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${value.token}` },
+        url: `${IPADDRESS}/api/v1/users/updateMe`,
+        data: {
+          myCar: carData,
+        },
+      });
+      if (res.data.status === "success") {
+        navigation.navigate("PeriodicServiceScreen");
+      }
+      console.log(res.data.status);
+    } catch (e) {
+      console.log(e.response.data);
+    }
   };
-
 
   let rawData = [{ value: "Petrol" }, { value: "Diesel" }];
   return (
     <SafeArea>
       <Header title="My Car" toLeft={true} navigation={navigation} />
       <CarContainer>
-        <Dropdown
-          label="Select car Model"
-          data={data}
-          onChangeText={(value) => setCarModel(value)}
-        />
-        <Dropdown
-          label="Fuel type"
-          data={rawData}
-          onChangeText={(value) => setfuelType(value)}
-        />
+        <Spacer>
+          <Dropdown
+            label="Select car Model"
+            data={data}
+            onChangeText={(value) => setCarModel(value)}
+          />
+          {errorCarModel === true && (
+            <Spacer position="left" size="large">
+              <Text variant="error">Please select car model</Text>
+            </Spacer>
+          )}
+        </Spacer>
+        <Spacer>
+          <Dropdown
+            label="Fuel type"
+            data={rawData}
+            onChangeText={(value) => setfuelType(value)}
+          />
+          {errorFuelType === true && (
+            <Spacer position="left" size="large">
+              <Text variant="error">Please select fuel type</Text>
+            </Spacer>
+          )}
+        </Spacer>
         <InputeContainer>
           <Spacer size="large">
             <InputController
               label="Reg No(Required)*"
-              rules={{ required: true }}
-              name="regNo"
+              rules={{
+                required: true,
+                pattern: /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/,
+              }}
+              name="registrationNo"
               placeValue={setPlaceValue}
               divide={false}
               text={true}
               control={control}
             />
-            {errors.regNo && (
-              <Text variant="error">Please enter the reg no</Text>
+            {errors.registrationNo && (
+              <Text variant="error">
+                {errors.registrationNo.type === "required"
+                  ? "Please enter the reg no"
+                  : "Please enter valid registration no"}
+              </Text>
             )}
           </Spacer>
           <Spacer size="four_large">
             <InputController
-              label="Modal Year(Required)*"
-              rules={{ required: true }}
-              name="modalYear"
+              label="Model Year(Required)*"
+              rules={{ required: true, pattern: /^(199\d|200\d|2021)$/ }}
+              name="modelYear"
               divide={false}
               text={false}
               control={control}
             />
-            {errors.modalYear && (
-              <Text variant="error">modal year is required</Text>
+            {errors.modelYear && (
+              <Text variant="error">
+                {errors.modelYear.type === "required"
+                  ? "Model year is required"
+                  : "Model year should be > 1990 and < 2021"}
+              </Text>
             )}
           </Spacer>
           <Spacer size="four_large">

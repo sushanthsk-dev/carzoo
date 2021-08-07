@@ -24,15 +24,15 @@ const AgentDetails = styled.View`
   padding-right: ${(props) => props.theme.space[3]};
   justify-content: space-between;
 `;
-export const ProfileCard = ({ name }) => {
+export const ProfileCard = ({ name, user }) => {
   return (
     <AgentCardContainer>
       <ProfilePhotoContainer size="60px" />
       <AgentDetails>
         <SpacerView>
-          <Text variant="subTitle">Rohith Sharma</Text>
+          <Text variant="subTitle">{user.name}</Text>
           <Spacer>
-            <Text variant="caption">Moodbidri</Text>
+            <Text variant="caption">{user.workAssignedLocation}</Text>
           </Spacer>
         </SpacerView>
         <Text>{name}</Text>

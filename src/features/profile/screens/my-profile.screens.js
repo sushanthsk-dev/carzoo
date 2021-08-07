@@ -10,6 +10,7 @@ import { InputController } from "../../../components/form-control/input-control.
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { ProfileContext } from "../../../services/profile-details/profile.context";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 const MyProfileContainer = styled.View`
   margin-top: 56px;
@@ -21,6 +22,8 @@ const ProfileDetails = styled.View``;
 export const MyProfileScreen = ({ navigation }) => {
   const { saveProfileDetails, profileDetails, isProfileLoading } =
     useContext(ProfileContext);
+  const { user } = useContext(AuthenticationContext);
+
   const isLoading = false;
   const {
     register,
@@ -30,9 +33,9 @@ export const MyProfileScreen = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: profileDetails !== null ? profileDetails.name : "",
-      email: profileDetails !== null ? profileDetails.email : "",
-      phoneno: profileDetails !== null ? profileDetails.phoneno : "",
+      name: user !== null ? user.name : "",
+      email: user !== null ? user.email : "",
+      phoneno: user.phoneno !== null ? user.phoneno : "",
     },
   });
   const onSubmit = (data) => {

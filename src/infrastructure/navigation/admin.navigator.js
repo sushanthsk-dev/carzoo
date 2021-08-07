@@ -19,10 +19,6 @@ export const AdminNavigator = () => {
       headerMode="none"
       screenOptions={{ ...TransitionPresets.ScaleFromCenterAndroid }}
     >
-      <AdminStack.Screen
-        name="MechanicScreen"
-        component={DropMechanicLocationScreen}
-      />
       <AdminStack.Screen name="AdminScreen" component={AdminScreen} />
 
       <AdminStack.Screen

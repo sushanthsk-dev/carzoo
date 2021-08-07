@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { Button } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
 import { DateView } from "../../../components/date-time/date.component";
 import { Header } from "../../../components/header/header.component";
 import { Text } from "../../../components/typography/text.component";
@@ -17,6 +18,8 @@ import { TimeContext } from "../../../services/date-time/time.context";
 import { AddressCard } from "../components/address-card.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { AddressContext } from "../../../services/address/address.context";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { IPADDRESS } from "../../../utils/env";
 
 const CheckoutContainer = styled.View``;
 const DateTimeContainer = styled.View``;
@@ -68,6 +71,7 @@ export const CheckoutScreen = ({ navigation, route }) => {
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const { getLoggedSession } = React.useContext(AuthenticationContext);
   const { date, addDate, removeDate } = React.useContext(DateContext);
 
   const { time, addTime, removeTime } = React.useContext(TimeContext);
@@ -88,7 +92,8 @@ export const CheckoutScreen = ({ navigation, route }) => {
     const timeData = getTime(dateTime);
     setTimes(timeData);
   };
-  const placeOrder = () => {
+  const placeOrder = async () => {
+    const value = await getLoggedSession();
     setDateError(!pickupTime.date.toString() ? true : false);
     setTimeError(!pickupTime.time.toString() ? true : false);
     setAddressError(!address ? true : false);
@@ -99,10 +104,32 @@ export const CheckoutScreen = ({ navigation, route }) => {
     if (!address) {
       return null;
     }
-    setTimeout(() => {
-      navigation.navigate("OrderScreen");
-    }, 500);
-    return console.log("Order LIST", pickupTime, address);
+    console.log();
+    // setTimeout(() => {
+    //   navigation.navigate("OrderScreen");
+    // }, 500);
+    try {
+      const res = await axios({
+        method: "POST",
+        headers: { Authorization: `Bearer ${value.token}` },
+        url: `${IPADDRESS}/api/v1/booking/checkout-session`,
+        data: {
+          price: servicePlan.price,
+          serviceId: servicePlan.id,
+          pickupDateTime: pickupTime,
+          address: address,
+          phoneno: address.phoneno,
+        },
+      });
+      console.log(res.data);
+    } catch (e) {
+      console.log(e.response.data.message);
+    }
+    return console.log("Order LIST", pickupTime, address, {
+      id: servicePlan.id,
+      price: servicePlan.price,
+      title: servicePlan.title,
+    });
   };
   const ScrollViewContainer = styled(ScrollView)`
     margin-top: 56px;
