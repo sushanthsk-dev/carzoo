@@ -51,33 +51,14 @@ export const AddressScreen = ({ navigation }) => {
     },
   });
 
-  const { getLoggedSession } = useContext(AuthenticationContext);
+  const { headerToken } = useContext(AuthenticationContext);
   const onSubmit = async (data) => {
-    setloading(true);
-    const value = await getLoggedSession();
-    try {
-      const res = await axios({
-        method: "PATCH",
-        headers: { Authorization: `Bearer ${value.token}` },
-        url: `${IPADDRESS}/api/v1/users/updateMe`,
-        data: {
-          phoneno: data.phoneno, 
-          address: address,
-        },
-      });
-      if (res.data.status === "success") {
-        setAddress(res.data.data.address);
-        setloading(false);
-        navigation.navigate("CheckoutScreen");
-      }
-      setloading(false);
-    } catch (e) {
-      setError(e.response.data.message);
-      setloading(false);
+    //try 3
+    const res = await addAddress(data);
+    console.log(res);
+    if (res === "success") {
+      navigation.goBack();
     }
-    // ``    setTimeout(() => {
-    //       navigation.navigate("CheckoutScreen");
-    //     }, 100);``
   };
 
   return (
@@ -148,13 +129,14 @@ export const AddressScreen = ({ navigation }) => {
                 divide={false}
                 text={false}
                 control={control}
+                maxLength={10}
               />
               {errors.phoneno && (
                 <Text variant="error">Phone number is required</Text>
               )}
             </Spacer>
             <Spacer size="four_large">
-              {!isLoading || !loading ? (
+              {!isLoading ? (
                 <AddressButton
                   mode="contained"
                   onPress={handleSubmit(onSubmit)}

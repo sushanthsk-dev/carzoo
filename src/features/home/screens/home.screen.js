@@ -29,7 +29,9 @@ export const HomeScreen = ({ navigation }) => {
           onPress={() => {
             user.myCar
               ? navigation.navigate("PeriodicServiceScreen")
-              : navigation.navigate("CarScreen");
+              : navigation.navigate("CarScreen", {
+                  routeName: "PeriodicServiceScreen",
+                });
           }}
         >
           <FeatureCard title="Periodic Service" />

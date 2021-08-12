@@ -13,7 +13,7 @@ import { ServiceStatus } from "../../profile/components/service-status.component
 
 const OrderContainer = styled(ScrollView)`
   margin: 0 ${(props) => props.theme.space[2]};
-  margin-top: 56px;
+  margin-top: 70px;
 `;
 
 const OrderCard = styled.View`

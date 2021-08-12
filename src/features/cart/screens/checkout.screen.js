@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View, BackHandler } from "react-native";
 import { Button } from "react-native-paper";
+
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { DateView } from "../../../components/date-time/date.component";
@@ -71,7 +72,8 @@ export const CheckoutScreen = ({ navigation, route }) => {
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [addressError, setAddressError] = useState(false);
-  const { getLoggedSession } = React.useContext(AuthenticationContext);
+  const [disable, setDisable] = useState(false);
+  const { headerToken, user } = React.useContext(AuthenticationContext);
   const { date, addDate, removeDate } = React.useContext(DateContext);
 
   const { time, addTime, removeTime } = React.useContext(TimeContext);
@@ -93,7 +95,6 @@ export const CheckoutScreen = ({ navigation, route }) => {
     setTimes(timeData);
   };
   const placeOrder = async () => {
-    const value = await getLoggedSession();
     setDateError(!pickupTime.date.toString() ? true : false);
     setTimeError(!pickupTime.time.toString() ? true : false);
     setAddressError(!address ? true : false);
@@ -104,14 +105,12 @@ export const CheckoutScreen = ({ navigation, route }) => {
     if (!address) {
       return null;
     }
-    console.log();
-    // setTimeout(() => {
-    //   navigation.navigate("OrderScreen");
-    // }, 500);
+
     try {
+      setDisable(true);
       const res = await axios({
         method: "POST",
-        headers: { Authorization: `Bearer ${value.token}` },
+        headers: { Authorization: `Bearer ${headerToken}` },
         url: `${IPADDRESS}/api/v1/booking/checkout-session`,
         data: {
           price: servicePlan.price,
@@ -119,21 +118,31 @@ export const CheckoutScreen = ({ navigation, route }) => {
           pickupDateTime: pickupTime,
           address: address,
           phoneno: address.phoneno,
+          carDetails: user.myCar,
         },
       });
       console.log(res.data);
+      if (res.data.status === "success") {
+        setTimeout(() => {
+          setDisable(false);
+          removeDate(null);
+          removeTime([]);
+        }, 100);
+        navigation.navigate("OrderScreen", { orderId: res.data.data._id });
+      }
     } catch (e) {
       console.log(e.response.data.message);
+      setDisable(false);
     }
-    return console.log("Order LIST", pickupTime, address, {
-      id: servicePlan.id,
-      price: servicePlan.price,
-      title: servicePlan.title,
-    });
   };
   const ScrollViewContainer = styled(ScrollView)`
-    margin-top: 56px;
+    margin-top: 70px;
   `;
+
+  const handleBackButtonClick = () => {
+    navigation.popToTop();
+    return true;
+  };
 
   React.useEffect(() => {
     setData();
@@ -143,6 +152,15 @@ export const CheckoutScreen = ({ navigation, route }) => {
     setPickupTime({ date: date, time: time });
   }, [date, time]);
 
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
   return (
     <SafeArea>
       <Header title="Checkout" toLeft={true} navigation={navigation} />
@@ -251,6 +269,7 @@ export const CheckoutScreen = ({ navigation, route }) => {
           Cancel
         </CancelButton>
         <Button
+          disabled={disable}
           mode="contained"
           labelStyle={{ fontSize: 16 }}
           onPress={() => placeOrder()}

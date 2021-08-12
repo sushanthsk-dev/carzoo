@@ -16,6 +16,7 @@ import { AddDocumentScreen } from "../../features/insurance-and-emission/screens
 import { MapScreen } from "../../features/map/screens/map.screen";
 import { MechanicScreen } from "../../features/mechanic/screens/mechanic.screen";
 import { MyCarScreen } from "../../features/profile/screens/my-car.screen";
+import { OrderSummary } from "../../features/profile/screens/order-summary";
 
 const HomeStack = createStackNavigator();
 export const HomeNavigator = () => {
@@ -43,6 +44,7 @@ export const HomeNavigator = () => {
       <HomeStack.Screen name="CartScreenInside" component={CartScreen} />
       <HomeStack.Screen name="CheckoutScreen" component={CheckoutScreen} />
       <HomeStack.Screen name="OrderScreen" component={OrderScreen} />
+      <HomeStack.Screen name="OrderSummaryScreen" component={OrderSummary} />
       <HomeStack.Screen name="MapScreen" component={MapScreen} />
       <HomeStack.Screen name="DocumentScreen" component={DocumentScreen} />
       <HomeStack.Screen

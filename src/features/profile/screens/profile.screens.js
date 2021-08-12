@@ -71,7 +71,11 @@ export const ProfileScreen = ({ navigation }) => {
           >
             <ProfileFeatureList title="My Order" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("MyCarScreen")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("MyCarScreen", { routeName: "ProfileScreen" })
+            }
+          >
             <ProfileFeatureList title="My Car" />
           </TouchableOpacity>
         </ProfileFeaturesContainer>

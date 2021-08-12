@@ -14,7 +14,7 @@ import { validate } from "validate.js";
 import { colors } from "../../../infrastructure/theme/colors";
 
 const CartContainer = styled.View`
-  margin-top: 56px;
+  margin-top: 70px;
   width: 100%;
   height: 100%;
 `;
@@ -44,7 +44,7 @@ const SubmitButton = styled(Button)`
   justify-content: center;
 `;
 export const CartScreen = ({ route, navigation }) => {
-  const [pincode, setPincode] = useState(null);
+  const [pincode, setPincode] = useState("574227");
   const [disable, setDisable] = useState(true);
   const [successText, setSuccessText] = useState(null);
   const [pincodeError, setPincodeError] = useState(null);
@@ -107,6 +107,7 @@ export const CartScreen = ({ route, navigation }) => {
                 label="Enter pincode"
                 onChangeText={(t) => setPincode(t)}
                 value={pincode}
+                maxLength={6}
               />
               <SubmitButton mode="contained" onPress={() => onSubmit()}>
                 Check

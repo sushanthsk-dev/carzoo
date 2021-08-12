@@ -41,14 +41,16 @@ export const LoginScreen = ({ navigation }) => {
     <AccountBackground>
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
       <AccountContainer>
-        <AuthInput
-          label="Email"
-          value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(u) => setEmail(u)}
-        />
+        <Spacer>
+          <AuthInput
+            label="Email"
+            value={email}
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(u) => setEmail(u)}
+          />
+        </Spacer>
         <Spacer size="large">
           <AuthInput
             label="Password"

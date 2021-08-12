@@ -14,7 +14,7 @@ import { ProfilePhotoContainer } from "../../profile/components/profile-photo-co
 import { AddressCard } from "../components/address-card.component";
 
 const Container = styled(ScrollView)`
-  margin-top: 56px;
+  margin-top: 70px;
   height: 100%;
   padding: ${(props) => props.theme.space[2]};
 `;

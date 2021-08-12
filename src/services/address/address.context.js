@@ -6,7 +6,7 @@ import { IPADDRESS } from "../../utils/env";
 export const AddressContext = createContext();
 
 export const AddressContextProvider = ({ children }) => {
-  const { getLoggedSession } = useContext(AuthenticationContext);
+  const { headerToken, user } = useContext(AuthenticationContext);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [address, setAddress] = useState(null);
@@ -14,43 +14,48 @@ export const AddressContextProvider = ({ children }) => {
   const saveAddress = (addrss) => {
     setAddress(address);
   };
-
   const loadAddress = async () => {
-    const value = await getLoggedSession();
     try {
+      console.log("Header", headerToken);
+      const url =
+        user.role === "user"
+          ? `${IPADDRESS}/api/v1/users/me`
+          : `${IPADDRESS}/api/v1/admin/me`;
       const res = await axios({
         method: "GET",
-        headers: { Authorization: `Bearer ${value.token}` },
-        url: `${IPADDRESS}/api/v1/users/me`,
+        headers: { Authorization: `Bearer ${headerToken}` },
+        url: url,
       });
-      console.log("LOADING", res.data.data.doc.address);
       setAddress({
         ...res.data.data.doc.address,
         phoneno: res.data.data.doc.phoneno,
       });
-      console.log("ADDRESS", address);
     } catch (e) {
-      console.log(e);
+      console.log("JWT", e.response.data.message);
       setError(e.response.data.message);
     }
   };
 
   const add = async (addrss) => {
     setIsLoading(true);
-    const value = await getLoggedSession();
     try {
       const res = await axios({
         method: "PATCH",
-        headers: { Authorization: `Bearer ${value.token}` },
+        headers: { Authorization: `Bearer ${headerToken}` },
         url: `${IPADDRESS}/api/v1/users/updateMe`,
         data: {
           phoneno: addrss.phoneno,
           address: addrss,
         },
       });
-      console.log(res.data.data);
       if (res.data.status === "success") {
-        setAddress(res.data.data.address);
+        setAddress({
+          ...res.data.data.updatedUser.address,
+          phoneno: res.data.data.updatedUser.phoneno,
+        });
+
+        setIsLoading(false);
+        return res.data.status;
       }
       setIsLoading(false);
     } catch (e) {
@@ -64,8 +69,13 @@ export const AddressContextProvider = ({ children }) => {
   useEffect(() => {
     setIsLoading(true);
     loadAddress();
+    console.log(address);
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    setAddress(address);
+  }, [address]);
 
   return (
     <AddressContext.Provider

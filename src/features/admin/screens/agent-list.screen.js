@@ -11,7 +11,7 @@ import { Text } from "../../../components/typography/text.component";
 const Tab = createMaterialTopTabNavigator();
 
 const Container = styled.View`
-  margin-top: 56px;
+  margin-top: 70px;
   flex: 1;
 `;
 

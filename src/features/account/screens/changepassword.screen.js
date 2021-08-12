@@ -10,7 +10,7 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 import {
-  AccountBackground,
+  ChangePasswordBackground,
   AccountContainer,
   AccountCover,
   AuthButton,
@@ -28,8 +28,8 @@ const SignInContainer = styled.View`
 
 export const ChangePasswordScreen = ({ navigation, route }) => {
   const { oldPassword, id } = route.params;
-  const [password, setPassword] = useState("test12345");
-  const [repeatedPassword, setRepeatedPassword] = useState("test12345");
+  const [password, setPassword] = useState("test1234");
+  const [repeatedPassword, setRepeatedPassword] = useState("test1234");
   const { onPasswordChange, isLoading, error } = useContext(
     AuthenticationContext
   );
@@ -40,15 +40,13 @@ export const ChangePasswordScreen = ({ navigation, route }) => {
 
   return (
     <SafeArea>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Spacer position="left" size="medium">
-          <Spacer position="top" size="large" />
-          <Ionicons name="arrow-back" size={30} color="grey" />
-        </Spacer>
-      </TouchableOpacity>
-      <AccountBackground>
-        <Text variant="title">Reset Password</Text>
+      <Header title="Reset Password" toLeft={true} navigation={navigation} />
+
+      <ChangePasswordBackground>
         <AccountContainer>
+          <Spacer position="left" size="small">
+            <Text variant="title">Please Change your password</Text>
+          </Spacer>
           <Spacer size="large">
             <AuthInput
               label="Password"
@@ -86,7 +84,7 @@ export const ChangePasswordScreen = ({ navigation, route }) => {
             )}
           </Spacer>
         </AccountContainer>
-      </AccountBackground>
+      </ChangePasswordBackground>
     </SafeArea>
   );
 };

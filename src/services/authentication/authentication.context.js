@@ -3,6 +3,7 @@ import axios from "axios";
 import { IPADDRESS } from "../../utils/env";
 import { loginRequest } from "./authentication.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const AuthenticationContext = createContext();
 
 export const AuthenticationContextProvider = ({ children }) => {
@@ -10,6 +11,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
+  const [headerToken, setHeaderToken] = useState(null);
   const saveLoggedSession = async (value) => {
     const jwt = {
       token: value,
@@ -41,7 +43,8 @@ export const AuthenticationContextProvider = ({ children }) => {
       // error reading value
     }
   };
-  const removeSession = async () => AsyncStorage.removeItem("@loggedSession");
+  const removeSession = async () =>
+    await AsyncStorage.removeItem("@loggedSession");
 
   const onLogin = async (email, password, isAdmin = false) => {
     setError(null);
@@ -60,16 +63,19 @@ export const AuthenticationContextProvider = ({ children }) => {
           password,
         },
       });
-      console.log(res);
       if (isAdmin === true) {
-        if (res.data.data.user.isNewUser === false) {
+        console.log(res.data.data.user);
+        if (!res.data.data.user.isNewUser) {
+          console.log("LOGGED", res.data.token);
+          setHeaderToken(res.data.token);
+          saveLoggedSession(res.data.token);
           setUser(res.data.data.user);
           setIsLoading(false);
-          saveLoggedSession(res.data.token);
         } else {
           setResponse({ id: res.data.data.user._id });
         }
       } else {
+        setHeaderToken(res.data.token);
         setUser(res.data.data.user);
         setIsLoading(false);
         saveLoggedSession(res.data.token);
@@ -77,12 +83,14 @@ export const AuthenticationContextProvider = ({ children }) => {
     } catch (e) {
       setIsLoading(false);
       console.log(e.response);
-      // setError(e.response.data.message);
+      setError(e.response.data.message);
     }
     setIsLoading(false);
   };
 
   const isUserLoggedIn = async () => {
+    setIsLoading(true);
+    console.log("LOGG");
     const value = await getLoggedSession();
     if (value) {
       try {
@@ -98,10 +106,14 @@ export const AuthenticationContextProvider = ({ children }) => {
         });
         const res =
           userRes.data.data !== null ? userRes.data.data : adminRes.data.data;
+
+        setHeaderToken(value.token);
         setUser(res);
+        setIsLoading(false);
         return user;
       } catch (e) {
         console.log(e);
+        setIsLoading(false);
       }
     }
     return null;
@@ -126,6 +138,7 @@ export const AuthenticationContextProvider = ({ children }) => {
           passwordConfirm: repeatedPassword,
         },
       });
+      setHeaderToken(res.data.token);
       setUser(res.data.data.user);
       setIsLoading(false);
       saveLoggedSession(res.data.token);
@@ -142,19 +155,22 @@ export const AuthenticationContextProvider = ({ children }) => {
     passwordConfirm,
     id
   ) => {
+    console.log(oldPassword, id, password, passwordConfirm);
     setError(null);
     setIsLoading(true);
     try {
       const res = await axios({
         method: "PATCH",
-        url: `${IPADDRESS}api/v1/admin/changeMyPassword/${id}`,
+        url: `${IPADDRESS}/api/v1/admin/changeMyPassword/${id}`,
         data: {
           passwordCurrent: oldPassword,
           password: password,
           passwordConfirm: passwordConfirm,
         },
       });
+      console.log(res.data.user);
       setUser(res.data.data.user);
+      setHeaderToken(res.data.token);
       saveLoggedSession(res.data.token);
       setResponse(null);
       setIsLoading(false);
@@ -164,7 +180,48 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
     setIsLoading(false);
   };
+
+  const updateUserDetails = async (data) => {
+    setError(null);
+    setIsLoading(true);
+    let filteredBody = {};
+    if (data.email !== user.email) {
+      Object.assign(filteredBody, { email: data.mail });
+    }
+
+    if (parseInt(data.phoneno) !== user.phoneno) {
+      Object.assign(filteredBody, { phoneno: data.phoneno });
+    }
+    if (data.name !== user.name) {
+      Object.assign(filteredBody, { name: data.name });
+    }
+    if (Object.keys(filteredBody).length === 0) {
+      setIsLoading(false);
+      return "success";
+    }
+
+    try {
+      const res = await axios({
+        method: "PATCH",
+        url: `${IPADDRESS}/api/v1/users/updateMe`,
+        headers: { Authorization: `Bearer ${headerToken}` },
+        data: {
+          ...filteredBody,
+        },
+      });
+      setUser(res.data.data.updatedUser);
+      setIsLoading(false);
+      return "success";
+    } catch (e) {
+      console.log(e.response.data.message);
+
+      setIsLoading(false);
+      setError(e.response.data.message);
+    }
+  };
+
   const onLogout = () => {
+    setHeaderToken(null);
     setUser(null);
     removeSession();
   };
@@ -173,6 +230,10 @@ export const AuthenticationContextProvider = ({ children }) => {
     setError(null);
     setResponse(null);
     setIsLoading(false);
+
+    return () => {
+      onLogout();
+    };
   }, []);
 
   return (
@@ -184,12 +245,15 @@ export const AuthenticationContextProvider = ({ children }) => {
         error,
         onLogin,
         onRegister,
+        headerToken,
         getLoggedSession,
         onPasswordChange,
         isUserLoggedIn,
         onLogout,
+        setUser,
         setError,
         response,
+        updateUserDetails,
       }}
     >
       {children}

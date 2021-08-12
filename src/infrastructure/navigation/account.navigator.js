@@ -13,6 +13,7 @@ export const AccountNavigator = () => {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+
       <Stack.Screen name="AdminLogin" component={AdminLoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Verify" component={VerifyScreen} />

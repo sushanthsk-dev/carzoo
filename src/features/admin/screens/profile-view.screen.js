@@ -13,7 +13,7 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 
 const Container = styled(ScrollView)`
-  margin-top: 56px;
+  margin-top: 70px;
   height: 100%;
   padding: ${(props) => props.theme.space[2]};
 `;

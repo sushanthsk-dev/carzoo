@@ -14,7 +14,7 @@ import SwipeButton from "rn-swipe-button";
 import { Swipe } from "../components/swipe-button.component";
 const OrderContainer = styled(ScrollView)`
   margin: 0 ${(props) => props.theme.space[2]};
-  margin-top: 56px;
+  margin-top: 70px;
 `;
 
 const OrderCard = styled.View`

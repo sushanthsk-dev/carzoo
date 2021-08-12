@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, BackHandler } from "react-native";
 
 import styled from "styled-components/native";
 import { CartFloat } from "../../../components/cart/cart-float.component";
@@ -28,7 +28,7 @@ const CoverImage = styled.Image`
 `;
 const ScrollViewContainer = styled(ScrollView)`
   background-color: #fff;
-  margin-top: 56px;
+  margin-top: 70px;
 `;
 export const PeriodicServiceScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -36,9 +36,27 @@ export const PeriodicServiceScreen = ({ navigation }) => {
 
   const { cart } = useContext(CartContext);
 
+  const handleBackButtonClick = () => {
+    navigation.popToTop();
+    return true;
+  };
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
   return (
     <SafeArea>
-      <Header navigation={navigation} toLeft={true} title="Periodic Service" />
+      <Header
+        navigation={navigation}
+        topNavigate={true}
+        toLeft={true}
+        title="Periodic Service"
+      />
       {!!cart.id && <CartFloat navigation={navigation} />}
       <ScrollViewContainer>
         <ServiceImageContainer>

@@ -12,7 +12,7 @@ import { ProfileContext } from "../../../services/profile-details/profile.contex
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 
 const MyProfileContainer = styled.View`
-  margin-top: 56px;
+  margin-top: 70px;
   align-items: center;
 `;
 

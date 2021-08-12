@@ -13,7 +13,7 @@ import { AuthenticationContext } from "../../../services/authentication/authenti
 const Tab = createMaterialTopTabNavigator();
 
 const OrderContainer = styled.View`
-  margin-top: 56px;
+  margin-top: 70px;
   flex: 1;
 `;
 
@@ -36,7 +36,7 @@ const AddButton = styled(TouchableOpacity)`
 `;
 
 export const ManageProfile = ({ navigation, name }) => {
-  const { getLoggedSession } = React.useContext(AuthenticationContext);
+  const { headerToken } = React.useContext(AuthenticationContext);
   const [user, setUser] = useState([]);
 
   const ActiveUser = () => {
@@ -104,11 +104,10 @@ export const ManageProfile = ({ navigation, name }) => {
 
   const getUser = async () => {
     try {
-      const value = await getLoggedSession();
       const res = await axios({
         method: "GET",
         url: `${IPADDRESS}/api/v1/admin?role=agent`,
-        headers: { Authorization: `Bearer ${value.token}` },
+        headers: { Authorization: `Bearer ${headerToken}` },
       });
       setUser(res.data.data.doc);
     } catch (e) {

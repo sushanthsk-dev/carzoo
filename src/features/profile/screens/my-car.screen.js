@@ -12,7 +12,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { InputController } from "../../../components/form-control/input-control.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 const CarContainer = styled.View`
-  margin-top: 56px;
+  margin-top: 70px;
 `;
 const InputeContainer = styled.View`
   margin: auto;
@@ -79,16 +79,21 @@ const data = [
       "https://imgd.aeplcdn.com/227x128/cw/ec/39013/Maruti-Suzuki-Alto-Right-Front-Three-Quarter-154833.jpg?wm=0&q=85",
   },
 ];
-export const MyCarScreen = ({ navigation }) => {
-  const { getLoggedSession, user } = React.useContext(AuthenticationContext);
+export const MyCarScreen = ({ navigation, route }) => {
+  const { headerToken, user, setUser } = React.useContext(
+    AuthenticationContext
+  );
+  const { myCar } = user;
+  console.log(myCar);
+  const { routeName } = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [carModel, setCarModel] = useState(
-    user.carModel ? user.carModel : null
+    myCar ? (myCar.carModel ? myCar.carModel : null) : null
   );
   const [errorCarModel, setErrorCarModel] = useState(false);
   const [errorFuelType, setErrorFuelType] = useState(false);
   const [fuelType, setfuelType] = useState(
-    user.fuelType ? user.fuelType : null
+    myCar ? (myCar.fuelType ? myCar.fuelType : null) : null
   );
 
   const {
@@ -102,13 +107,20 @@ export const MyCarScreen = ({ navigation }) => {
     defaultValues: {
       carModel: "",
       fuelType: "",
-      registrationNo: user.registrationNo ? user.registrationNo : "",
-      modelYear: user.modelYear ? user.modelYear : "",
+      registrationNo: myCar
+        ? myCar.registrationNo
+          ? myCar.registrationNo
+          : ""
+        : "",
+      modelYear: myCar
+        ? myCar.modelYear
+          ? myCar.modelYear.toString()
+          : ""
+        : "",
     },
   });
   console.log(errors);
   const onSubmit = async (carData) => {
-    const value = await getLoggedSession();
     carData.carModel = carModel;
     carData.fuelType = fuelType;
     setErrorCarModel(false);
@@ -125,14 +137,15 @@ export const MyCarScreen = ({ navigation }) => {
     try {
       const res = await axios({
         method: "PATCH",
-        headers: { Authorization: `Bearer ${value.token}` },
+        headers: { Authorization: `Bearer ${headerToken}` },
         url: `${IPADDRESS}/api/v1/users/updateMe`,
         data: {
           myCar: carData,
         },
       });
       if (res.data.status === "success") {
-        navigation.navigate("PeriodicServiceScreen");
+        setUser(res.data.data.updatedUser);
+        navigation.navigate(routeName);
       }
       console.log(res.data.status);
     } catch (e) {
@@ -149,6 +162,7 @@ export const MyCarScreen = ({ navigation }) => {
           <Dropdown
             label="Select car Model"
             data={data}
+            value={carModel}
             onChangeText={(value) => setCarModel(value)}
           />
           {errorCarModel === true && (
@@ -161,6 +175,7 @@ export const MyCarScreen = ({ navigation }) => {
           <Dropdown
             label="Fuel type"
             data={rawData}
+            value={fuelType}
             onChangeText={(value) => setfuelType(value)}
           />
           {errorFuelType === true && (
@@ -196,6 +211,7 @@ export const MyCarScreen = ({ navigation }) => {
               label="Model Year(Required)*"
               rules={{ required: true, pattern: /^(199\d|200\d|2021)$/ }}
               name="modelYear"
+              placeValue={setPlaceValue}
               divide={false}
               text={false}
               control={control}

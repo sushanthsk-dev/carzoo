@@ -24,13 +24,14 @@ import {
 import { TouchableWithoutFeedback } from "react-native";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 export const AdminLoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("rahul@gmail.com");
-  const [password, setPassword] = useState("Ya5S3U5g");
+  const [email, setEmail] = useState("agent7@gmail.com");
+  const [password, setPassword] = useState("test1234");
   const isAdmin = true;
-  const { onLogin, isLoading, error, response,setError } = useContext(
+  const { onLogin, isLoading, error, response, setError } = useContext(
     AuthenticationContext
   );
   useEffect(() => {
+    console.log(response);
     if (response !== null) {
       navigation.navigate("ChangePassword", {
         oldPassword: password,
@@ -43,14 +44,16 @@ export const AdminLoginScreen = ({ navigation }) => {
       <LogoImageContainer source={require("../../../../assets/logo1.png")} />
       <Text variant="title">Admin Login</Text>
       <AccountContainer>
-        <AuthInput
-          label="Email"
-          value={email}
-          textContentType="emailAddress"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(u) => setEmail(u)}
-        />
+        <Spacer>
+          <AuthInput
+            label="Email"
+            value={email}
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            onChangeText={(u) => setEmail(u)}
+          />
+        </Spacer>
         <Spacer size="large">
           <AuthInput
             label="Password"

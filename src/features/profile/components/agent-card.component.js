@@ -24,21 +24,21 @@ const AgentDetails = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
-export const AgentCard = () => {
+export const AgentCard = ({ agent }) => {
   return (
     <AgentCardContainer>
       <ProfilePhotoContainer size="60px" />
       <AgentDetails>
         <SpacerView>
-          <Text variant="subTitle">Rohith Sharma</Text>
+          <Text variant="subTitle">{agent.name}</Text>
           <Spacer>
-            <Text variant="subHead">987653100</Text>
+            <Text variant="subHead">{agent.phoneno}</Text>
           </Spacer>
         </SpacerView>
 
         <LocationContainer>
           <Entypo name="location-pin" size={18} color="black" />
-          <Text>Moodbidri</Text>
+          <Text>{agent.workAssignedLocation}</Text>
         </LocationContainer>
       </AgentDetails>
     </AgentCardContainer>

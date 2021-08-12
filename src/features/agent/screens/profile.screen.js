@@ -14,9 +14,10 @@ import { AuthenticationContext } from "../../../services/authentication/authenti
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 
 const Container = styled(ScrollView)`
-  margin-top: 56px;
+  margin-top: 60px;
   height: 100%;
   padding: ${(props) => props.theme.space[2]};
+  margin-bottom: 30px;
 `;
 const PhotoContainer = styled.View`
   align-items: center;
@@ -34,18 +35,21 @@ const Button = styled(ReactButton)`
 `;
 const SpacerView = styled.View`
   padding-left: ${(props) => props.theme.space[4]};
-  margin-bottom: ${(props) => props.theme.space[3]};
+  margin-bottom: ${(props) => props.theme.space[2]};
   border-bottom-width: 0.5px;
   border-color: grey;
 `;
 
 const LogoutSpacerView = styled.View`
   width: 100%;
+
+  margin-top: ${(props) => props.theme.space[2]};
 `;
 
 const LogoutButton = styled(Button)`
   border-radius: 5px;
-  margin: ${(props) => props.theme.space[2]};
+
+  margin: auto;
   background-color: ${(props) => props.theme.colors.ui.tertiary};
 `;
 
@@ -54,7 +58,7 @@ export const AgentProfileScreen = ({ navigation, route }) => {
   return (
     <SafeArea>
       <Header title="Agent Details" toLeft={true} navigation={navigation} />
-      <Container>
+      <Container showsVerticalScrollIndicator={false}>
         <PhotoContainer>
           <ProfilePhotoContainer />
         </PhotoContainer>
@@ -76,12 +80,16 @@ export const AgentProfileScreen = ({ navigation, route }) => {
             <TextData variant="body">{user.role}</TextData>
           </SpacerView>
         </Details>
+        <LogoutSpacerView>
+          <LogoutButton
+            mode="outline"
+            color="#6200EE"
+            onPress={() => onLogout()}
+          >
+            Logout
+          </LogoutButton>
+        </LogoutSpacerView>
       </Container>
-      <LogoutSpacerView>
-        <LogoutButton mode="outline" color="#6200EE" onPress={() => onLogout()}>
-          Logout
-        </LogoutButton>
-      </LogoutSpacerView>
     </SafeArea>
   );
 };
