@@ -1,17 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView from "react-native-maps";
+import { FontAwesome } from "@expo/vector-icons";
 import { Button as CallButton, Colors } from "react-native-paper";
 import styled from "styled-components/native";
 import { Entypo } from "@expo/vector-icons";
-import { Modal, TouchableOpacity } from "react-native";
+import { Modal, TouchableOpacity, Linking } from "react-native";
 import axios from "axios";
 import * as CurrentLocation from "expo-location";
 import { MapCallout } from "../components/map-callout.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import { LocationContext } from "../../../services/location/location.context";
 import { Text } from "../../../components/typography/text.component";
-import { MechanicScreen } from "../../mechanic/screens/mechanic.screen";
-
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Header } from "../../../components/header/header.component";
@@ -104,7 +102,6 @@ const MechanicMap = ({ navigation }) => {
 
   useEffect(() => {
     setLagDelta(KM === 1000 ? 0.033 : KM === 5000 ? 0.107 : 0.198);
-    console.log(KM);
   }, [KM]);
 
   useEffect(() => {
@@ -123,11 +120,10 @@ const MechanicMap = ({ navigation }) => {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         });
-        console.log(currentLocation);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
-        console.log(e);
+        console.log(e.response.data.message);
       }
     })();
   }, []);
@@ -172,14 +168,24 @@ const MechanicMap = ({ navigation }) => {
             }}
           >
             {currentLocation && (
-              <MapView.Circle
-                key={(longitude + latitude).toString()}
-                center={currentLocation}
-                radius={KM}
-                strokeWidth={2}
-                strokeColor={"#1a66ff"}
-                fillColor={"rgba(230,238,255,0.5)"}
-              />
+              <>
+                <MapView.Marker
+                  coordinate={{
+                    latitude: currentLocation.latitude,
+                    longitude: currentLocation.longitude,
+                  }}
+                >
+                  <FontAwesome name="circle" size={24} color={Colors.blue500} />
+                </MapView.Marker>
+                <MapView.Circle
+                  key={(longitude + latitude).toString()}
+                  center={currentLocation}
+                  radius={KM}
+                  strokeWidth={2}
+                  strokeColor={"#1a66ff"}
+                  fillColor={"rgba(230,238,255,0.5)"}
+                />
+              </>
             )}
             {!!mechanics &&
               mechanics.map((mechanic, i) => {
@@ -235,11 +241,14 @@ const MechanicMap = ({ navigation }) => {
                   <Text>Moodbidri</Text>
                 </Spacer>
                 <Spacer>
-                  <Text>1KM away</Text>
-                </Spacer>
-
-                <Spacer>
-                  <CallButton mode="contained">Click here to call</CallButton>
+                  <CallButton
+                    mode="contained"
+                    onPress={() =>
+                      Linking.openURL(`tel:${currentMechanic.phoneno}`)
+                    }
+                  >
+                    Click here to call
+                  </CallButton>
                 </Spacer>
                 <CloseButton
                   onPress={() => {

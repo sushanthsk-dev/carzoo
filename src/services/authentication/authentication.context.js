@@ -90,8 +90,9 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const isUserLoggedIn = async () => {
     setIsLoading(true);
-    console.log("LOGG");
     const value = await getLoggedSession();
+
+    console.log(value);
     if (value) {
       try {
         const userRes = await axios({
@@ -104,9 +105,9 @@ export const AuthenticationContextProvider = ({ children }) => {
           url: `${IPADDRESS}/api/v1/admin/isloggedin`,
           headers: { Authorization: `Bearer ${value.token}` },
         });
+        console.log("HE:", value);
         const res =
           userRes.data.data !== null ? userRes.data.data : adminRes.data.data;
-
         setHeaderToken(value.token);
         setUser(res);
         setIsLoading(false);
@@ -221,7 +222,6 @@ export const AuthenticationContextProvider = ({ children }) => {
   };
 
   const onLogout = () => {
-    setHeaderToken(null);
     setUser(null);
     removeSession();
   };
@@ -230,10 +230,6 @@ export const AuthenticationContextProvider = ({ children }) => {
     setError(null);
     setResponse(null);
     setIsLoading(false);
-
-    return () => {
-      onLogout();
-    };
   }, []);
 
   return (
