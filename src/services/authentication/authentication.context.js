@@ -1,6 +1,7 @@
 import React, { useState, createContext } from "react";
 import axios from "axios";
 import { IPADDRESS } from "../../utils/env";
+import { toastMessage } from "../../components/toast-message/toast.component";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthenticationContext = createContext();
@@ -197,11 +198,11 @@ export const AuthenticationContextProvider = ({ children }) => {
       setIsLoading(false);
       return "success";
     }
-
+    const url = user.role ==='user' ? `${IPADDRESS}/api/v1/users/updateMe` : `${IPADDRESS}/api/v1/admin/updateMe` ;
     try {
       const res = await axios({
         method: "PATCH",
-        url: `${IPADDRESS}/api/v1/users/updateMe`,
+        url: url,
         headers: { Authorization: `Bearer ${headerToken}` },
         data: {
           ...filteredBody,
@@ -209,9 +210,11 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
       setUser(res.data.data.updatedUser);
       setIsLoading(false);
+      if(res.data.status==='success') {
       return "success";
+      }
     } catch (e) {
-      console.log(e.response.data.message);
+      console.log("U", e.response.data.message);
 
       setIsLoading(false);
       setError(e.response.data.message);
@@ -219,6 +222,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   };
 
   const onLogout = () => {
+    setError(null);
     setUser(null);
     removeSession();
   };

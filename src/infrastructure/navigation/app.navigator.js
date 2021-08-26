@@ -38,6 +38,7 @@ const hideScreenArray = [
   "DocumentScreen",
   "AddDocumentScreen",
   "CheckoutScreen",
+  "MyOrderScreen",
   "OrderSummary",
   "OrderScreen",
   "ProfileScreen",

@@ -24,14 +24,14 @@ import {
 import { TouchableWithoutFeedback } from "react-native";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 export const AdminLoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("agent7@gmail.com");
+  const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("test1234");
   const isAdmin = true;
   const { onLogin, isLoading, error, response, setError } = useContext(
     AuthenticationContext
   );
   useEffect(() => {
-    console.log(response);
+
     if (response !== null) {
       navigation.navigate("ChangePassword", {
         oldPassword: password,

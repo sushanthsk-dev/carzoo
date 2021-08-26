@@ -12,6 +12,7 @@ import { Text } from "../../../components/typography/text.component";
 import { InputController } from "../../../components/form-control/input-control.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { AddressContext } from "../../../services/address/address.context";
+import { toastMessage } from "../../../components/toast-message/toast.component";
 
 const AddressContainer = styled.View`
   margin-top: 50px;
@@ -61,6 +62,7 @@ export const AddressScreen = ({ navigation }) => {
     const res = await addAddress(data);
     console.log(res);
     if (res === "success") {
+      toastMessage("Address added successfully");
       navigation.goBack();
     }
   };
@@ -97,7 +99,11 @@ export const AddressScreen = ({ navigation }) => {
                   control={control}
                 />
                 {errors.pincode && (
-                  <Text variant="error">Pincode is required</Text>
+                  <Text variant="error">
+                    {errors.registrationNo.type === "required"
+                      ? "Please enter the pincode"
+                      : "Please enter valid pincode"}
+                  </Text>
                 )}
               </Spacer>
               <Spacer size="four_large">

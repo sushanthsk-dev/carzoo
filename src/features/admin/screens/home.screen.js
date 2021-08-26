@@ -25,7 +25,7 @@ export const AdminScreen = ({ navigation }) => {
       <View>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("ManageProfileScreen", { name: "agent" })
+            navigation.navigate("ManageProfileScreen", { role: "agent" })
           }
         >
           <FeatureCard title="Manage Agent" />
@@ -33,7 +33,7 @@ export const AdminScreen = ({ navigation }) => {
 
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("ManageProfileScreen", { name: "mechanic" })
+            navigation.navigate("ManageProfileScreen", { role: "mechanic" })
           }
         >
           <FeatureCard title="Manage Mechanic" />

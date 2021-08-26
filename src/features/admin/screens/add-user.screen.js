@@ -12,6 +12,8 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { InputController } from "../../../components/form-control/input-control.component";
+import { AgentMechanicContext } from "../../../services/agent-mechanic/agent-mechanic.context";
+import { toastMessage } from "../../../components/toast-message/toast.component";
 
 const Container = styled.View`
   margin-top: 50px;
@@ -25,9 +27,9 @@ const Button = styled(ReactButton)`
 `;
 
 export const AddUserScreen = ({ navigation, route }) => {
-  const { name } = route.params;
-  const isLoading = false;
-  const user = false;
+  const { createAgentMechanic, isLoading } = useContext(AgentMechanicContext);
+  const { role, user = null } = route.params;
+
   const {
     register,
     setPlaceValue,
@@ -37,23 +39,27 @@ export const AddUserScreen = ({ navigation, route }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user !== null ? user.name : "",
-      email: user !== null ? user.email : "",
-      location: user !== null ? user.location : "",
-      phoneno: user !== null ? user.phoneno : "",
-      pincode: user !== null ? user.pincode : "",
-      role: user !== null ? user.role : name === "agent" ? "agent" : "mechanic",
+      name: user !== null ? user.name : "Anoop",
+      email: user !== null ? user.email : "anoop14@gmail.com",
+      workAssignedLocation:
+        user !== null ? user.workAssignedLocation : "moodbidri",
+      phoneno: user !== null ? user.phoneno.toString() : "9876543210",
+      pincode: user !== null ? user.pincode.toString() : "574227",
+      role: user !== null ? user.role : role === "agent" ? "agent" : "mechanic",
     },
   });
-  const onSubmit = (data) => {
-    setTimeout(() => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    const res = await createAgentMechanic(data, role);
+    if (res === "success") {
+      toastMessage("Mechanic created successfully");
       navigation.goBack();
-    }, 100);
+    }
   };
   return (
     <SafeArea>
       <Header
-        title={`Add  ${name} details`}
+        title={`Add  ${role} details`}
         toLeft={true}
         navigation={navigation}
       />
@@ -77,7 +83,11 @@ export const AddUserScreen = ({ navigation, route }) => {
             <Spacer size="larger">
               <InputController
                 label="Email(Required)*"
-                rules={{ required: true }}
+                rules={{
+                  required: true,
+                  pattern:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                }}
                 name="email"
                 placeValue={setPlaceValue}
                 divide={false}
@@ -97,6 +107,7 @@ export const AddUserScreen = ({ navigation, route }) => {
                 divide={false}
                 text={false}
                 control={control}
+                maxlength={10}
               />
               {errors.phoneno && (
                 <Text variant="error">Please enter the phone no</Text>
@@ -106,7 +117,7 @@ export const AddUserScreen = ({ navigation, route }) => {
               <InputController
                 label="Location for work(Required)*"
                 rules={{ required: true }}
-                name="location"
+                name="workAssignedLocation"
                 placeValue={setPlaceValue}
                 divide={false}
                 text={true}
@@ -119,7 +130,7 @@ export const AddUserScreen = ({ navigation, route }) => {
             <Spacer size="larger">
               <InputController
                 label="Pincode(Required)*"
-                rules={{ required: true }}
+                rules={{ required: true, pattern: /^(\d{4}|\d{6})$/ }}
                 name="pincode"
                 divide={false}
                 text={false}

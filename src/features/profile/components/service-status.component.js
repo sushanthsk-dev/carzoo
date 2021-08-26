@@ -36,7 +36,6 @@ const SpacerView = styled.View`
 export const ServiceStatus = ({ orderStatus = "Ordered" }) => {
   const status = ["Ordered", "Pickedup", "Servicing", "Deliveried"];
   const currentStatus = status.indexOf(orderStatus);
-
   return (
     <ServiceStatusContainer>
       <StatusCard>

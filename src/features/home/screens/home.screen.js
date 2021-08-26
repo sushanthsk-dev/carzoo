@@ -34,14 +34,13 @@ export const HomeScreen = ({ navigation }) => {
                 });
           }}
         >
-          <FeatureCard title="Periodic Service" />
+          <FeatureCard title="Periodic Service" imgSrc="https://carzoo-bucket.s3.ap-south-1.amazonaws.com/car-periodic-service.png" />
         </TouchableOpacity>
-
         <TouchableOpacity onPress={() => navigation.navigate("MapScreen")}>
-          <FeatureCard title="Mechanic Nearby" />
+          <FeatureCard title="Mechanic Nearby" imgSrc='https://carzoo-bucket.s3.ap-south-1.amazonaws.com/nearby-mechanic.png' />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("DocumentScreen")}>
-          <FeatureCard title="Insurance & Emission Test Document" />
+          <FeatureCard title="Insurance & Emission Test Document" imgSrc="https://carzoo-bucket.s3.ap-south-1.amazonaws.com/document.png" />
         </TouchableOpacity>
       </View>
     </SafeArea>

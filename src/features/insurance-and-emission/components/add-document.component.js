@@ -15,6 +15,7 @@ import { AuthenticationContext } from "../../../services/authentication/authenti
 import { InsuranceDocumentContext } from "../../../services/documents/insurance-document.context";
 import { LoadingDiv } from "../../../components/loading/loading.component";
 import { EmissionDocumentContext } from "../../../services/documents/emission-document.context";
+import { toastMessage } from "../../../components/toast-message/toast.component";
 const DocumentContainer = styled(ScrollView)`
   margin-top: 70px;
   flex: 1;
@@ -98,6 +99,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
     data.expiryDate = `${expiryDate} 23:59:59`;
     const res = await createDocument(data);
     if (res === "success") {
+      toastMessage("Insurance document created successfully");
       setInsuranceDocument(await getDocument());
       navigation.goBack();
     }
@@ -331,6 +333,7 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
     data.expiryDate = `${expiryDate} 23:59:59`;
     const res = await createDocument(data);
     if (res === "success") {
+      toastMessage("Emission document created successfully");
       setEmissionDocument(await getDocument());
       navigation.goBack();
     }

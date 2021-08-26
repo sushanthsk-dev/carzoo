@@ -20,6 +20,11 @@ const Container = styled(View)`
   justify-content: center;
 `;
 
+const ImageContainer = styled(Image)`
+margin-left:20px;
+margin-bottom:20px;
+`;
+
 export const MyOrderScreen = ({ navigation }) => {
   const { headerToken } = useContext(AuthenticationContext);
   const [orderList, setOrderList] = useState([]);
@@ -43,7 +48,7 @@ export const MyOrderScreen = ({ navigation }) => {
   return (
     <SafeArea>
       <Header toLeft={true} navigation={navigation} title="My Order" />
-      {orderList.length === 0 ? (
+      {orderList.length > 0 ? (
         <OrderContainer>
           {orderList.map((o, i) => (
             <TouchableOpacity
@@ -58,7 +63,9 @@ export const MyOrderScreen = ({ navigation }) => {
         </OrderContainer>
       ) : (
         <Container>
-          <Text variant="title">No Order</Text>
+          <ImageContainer source={require("../../../../assets/no-order.png")}/>
+          <Text variant="title">No Service Order</Text>
+
         </Container>
       )}
     </SafeArea>

@@ -3,7 +3,6 @@ import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { OrderSummaryScreen } from "../../features/admin/screens/order-summary";
 import { AgentOrderListScreen } from "../../features/agent/screens/home.screen";
 import { AgentOrderSummaryScreen } from "../../features/agent/screens/order-summary";
 

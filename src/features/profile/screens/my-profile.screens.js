@@ -10,6 +10,7 @@ import { InputController } from "../../../components/form-control/input-control.
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { toastMessage } from "../../../components/toast-message/toast.component";
 
 const MyProfileContainer = styled.View`
   margin-top: 70px;
@@ -45,9 +46,10 @@ export const MyProfileScreen = ({ navigation }) => {
     const res = await updateUserDetails(data);
 
     if (res === "success") {
+      toastMessage("Updated user details");
       setTimeout(() => {
         navigation.goBack();
-      }, 500);
+      }, 200);
     }
   };
   const UpdateButton = styled(Button)`
@@ -98,7 +100,7 @@ export const MyProfileScreen = ({ navigation }) => {
                 maxLength={10}
               />
               {errors.phoneno && (
-                <Text variant="error">Please enter the address</Text>
+                <Text variant="error">Please enter the phoneno</Text>
               )}
             </Spacer>
             <Spacer size="large">

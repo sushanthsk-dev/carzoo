@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, TouchableOpacity, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
 import { Entypo, AntDesign } from "@expo/vector-icons";
@@ -8,17 +8,20 @@ import { Header } from "../../../components/header/header.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { ProfileCard } from "../components/profile-card.component";
 import { Text } from "../../../components/typography/text.component";
+import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
+import { LoadingDiv } from "../../../components/loading/loading.component";
 
 const Tab = createMaterialTopTabNavigator();
 
 const OrderContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 55px;
   flex: 1;
 `;
 
 const Card = styled.View`
   flex-direction: row;
   align-items: center;
+  padding: ${(props) => props.theme.space[1]} ${(props) => props.theme.space[2]};
   border-bottom-width: 0.5px;
   border-color: grey;
 `;
@@ -53,6 +56,14 @@ const AssignButton = styled(Button)`
   right: 10px;
   top: 24px;
 `;
+
+const AssignedText = styled(Text)`
+  z-index: 888;
+  border-radius: 5px;
+  position: absolute;
+  right: 10px;
+  top: 24px;
+`;
 const CompletedText = styled(Text)`
   color: #fff;
   padding: ${(props) => props.theme.space[2]};
@@ -64,54 +75,109 @@ const CompletedText = styled(Text)`
   top: 24px;
 `;
 
-const CardList = () => (
+const CardList = ({ serviceOrder }) => (
   <Card>
     <CardHead>
       <Title>
-        <Text variant="title">KA19HA2021</Text>
-        <Text variant="caption">ID:235466</Text>
+        <Text variant="title">{serviceOrder.carDetails.registrationNo}</Text>
+        <Text variant="caption">{`ID: ${serviceOrder.orderId}`}</Text>
       </Title>
       <ID>
-        <Text variant="light_text">Basic Service</Text>
+        <Text variant="light_text">{serviceOrder.servicePlan}</Text>
       </ID>
     </CardHead>
   </Card>
 );
 
 export const OrderListScreen = ({ navigation, name }) => {
+  const {
+    orderList = null,
+    getBookingOrders,
+    isLoading,
+  } = useContext(BookingOrderContext);
+
+  useEffect(() => {
+    getBookingOrders();
+  }, []);
   const onGoingOrders = () => {
-    return (
+    return !isLoading ? (
       <>
         <CardContainer>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("OrderSummaryScreen", { name: name })
-            }
-          >
-            <CardList />
-          </TouchableOpacity>
-          <AssignButton
-            color={"#fff"}
-            onPress={() => navigation.navigate("AgentListScreen")}
-          >
-            Assign
-          </AssignButton>
+          {orderList.map(
+            (serviceOrder) =>
+              serviceOrder.agent === undefined && (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("OrderSummaryScreen", {
+                      serviceOrder: serviceOrder,
+                    })
+                  }
+                  key={serviceOrder._id}
+                >
+                  <CardList
+                    key={serviceOrder._id}
+                    serviceOrder={serviceOrder}
+                  />
+                  <AssignButton
+                    color={"#fff"}
+                    onPress={() =>
+                      navigation.navigate("AgentListScreen", {
+                        orderId: serviceOrder._id,
+                      })
+                    }
+                  >
+                    Assign
+                  </AssignButton>
+                </TouchableOpacity>
+              )
+          )}
+          {orderList.map(
+            (serviceOrder) =>
+              serviceOrder.agent !== undefined && (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("OrderSummaryScreen", {
+                      serviceOrder: serviceOrder,
+                    })
+                  }
+                  key={serviceOrder._id}
+                >
+                  <CardList
+                    key={serviceOrder._id}
+                    serviceOrder={serviceOrder}
+                  />
+                  <AssignedText>Assigned</AssignedText>
+                </TouchableOpacity>
+              )
+          )}
         </CardContainer>
       </>
+    ) : (
+      <LoadingDiv />
     );
   };
   const completedOrders = () => {
-    return (
+    return !isLoading ? (
       <CardContainer>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("OrderSummaryScreen", { name: name })
-          }
-        >
-          <CardList />
-        </TouchableOpacity>
-        <CompletedText variant="light_text">Completed</CompletedText>
+        {orderList.map(
+          (serviceOrder) =>
+            serviceOrder.orderStatus === "Deliveried" && (
+              <TouchableOpacity
+                key={serviceOrder._id}
+                onPress={() =>
+                  navigation.navigate("OrderSummaryScreen", {
+                    serviceOrder: serviceOrder,
+                  })
+                }
+              >
+                <CardList serviceOrder={serviceOrder} />
+                <CompletedText variant="light_text">Completed</CompletedText>
+              </TouchableOpacity>
+            )
+        )}
       </CardContainer>
+    ) : (
+      <LoadingDiv />
     );
   };
 
