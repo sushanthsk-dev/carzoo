@@ -74,6 +74,10 @@ const CompletedText = styled(Text)`
   right: 10px;
   top: 24px;
 `;
+const ImageContainer = styled(Image)`
+  margin-left: 20px;
+  margin-bottom: 20px;
+`;
 
 const CardList = ({ serviceOrder }) => (
   <Card>
@@ -158,24 +162,31 @@ export const OrderListScreen = ({ navigation, name }) => {
   };
   const completedOrders = () => {
     return !isLoading ? (
-      <CardContainer>
-        {orderList.map(
-          (serviceOrder) =>
-            serviceOrder.orderStatus === "Deliveried" && (
-              <TouchableOpacity
-                key={serviceOrder._id}
-                onPress={() =>
-                  navigation.navigate("OrderSummaryScreen", {
-                    serviceOrder: serviceOrder,
-                  })
-                }
-              >
-                <CardList serviceOrder={serviceOrder} />
-                <CompletedText variant="light_text">Completed</CompletedText>
-              </TouchableOpacity>
-            )
-        )}
-      </CardContainer>
+      orderList.length > 0 ? (
+        <CardContainer>
+          {orderList.map(
+            (serviceOrder) =>
+              serviceOrder.orderStatus === "Deliveried" && (
+                <TouchableOpacity
+                  key={serviceOrder._id}
+                  onPress={() =>
+                    navigation.navigate("OrderSummaryScreen", {
+                      serviceOrder: serviceOrder,
+                    })
+                  }
+                >
+                  <CardList serviceOrder={serviceOrder} />
+                  <CompletedText variant="light_text">Completed</CompletedText>
+                </TouchableOpacity>
+              )
+          )}
+        </CardContainer>
+      ) : (
+        <Container>
+          <ImageContainer source={require("../../../../assets/no-order.png")} />
+          <Text variant="title">No Service Order</Text>
+        </Container>
+      )
     ) : (
       <LoadingDiv />
     );
