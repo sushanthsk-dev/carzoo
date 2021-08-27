@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TouchableOpacity, ScrollView, View } from "react-native";
+import { TouchableOpacity, ScrollView, View,Image } from "react-native";
 import styled from "styled-components/native";
 import axios from "axios";
 import { Header } from "../../../components/header/header.component";
@@ -15,9 +15,17 @@ const OrderContainer = styled(ScrollView)`
 `;
 
 const Container = styled(View)`
-  margin-top: 70px;
+  margin-top: 30px;
   align-items: center;
   justify-content: center;
+  height:100%;
+ 
+`;
+const ImageContainer = styled(Image)`
+
+margin-left:20px;
+margin-bottom:20px;
+
 `;
 
 const ImageContainer = styled(Image)`
