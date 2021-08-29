@@ -40,8 +40,8 @@ const hideScreenArray = [
   "CheckoutScreen",
   "MyOrderScreen",
   "OrderSummary",
+  "OrderSummaryScreen",
   "OrderScreen",
-  "ProfileScreen",
   "MyProfileScreen",
   "MyOrderScreen",
   "MapScreen",
@@ -80,7 +80,20 @@ export const AppNavigator = () => {
                       })}
                     />
                     {/* <Tab.Screen name="Cart" component={CartScreen} /> */}
-                    <Tab.Screen name="Profile" component={ProfileNavigator} />
+                    <Tab.Screen
+                      name="Profile"
+                      options={({ route }) => ({
+                        tabBarVisible: ((routes) => {
+                          const routeName =
+                            getFocusedRouteNameFromRoute(routes) ?? "";
+                          if (hideScreenArray.includes(routeName)) {
+                            return false;
+                          }
+                          return true;
+                        })(route),
+                      })}
+                      component={ProfileNavigator}
+                    />
                   </Tab.Navigator>
                 </TimeContextProvider>
               </DateContextProvider>

@@ -14,7 +14,8 @@ import { AuthenticationContext } from "../../../services/authentication/authenti
 import { toastMessage } from "../../../components/toast-message/toast.component";
 
 const MyProfileContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   align-items: center;
 `;
 

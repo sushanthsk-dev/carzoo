@@ -38,6 +38,7 @@ const hideScreenArray = [
   "AddUserScreen",
   "OrderListScreen",
   "OrderSummaryScreen",
+  "AgentListScreen",
 ];
 
 export const AdminHomeNavigator = () => {

@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
-import { FeatureCard } from "../components/home.component";
+import { FeatureCard } from "../../home/components/home.component";
 
 const View = styled.View`
   width: 100%;
@@ -28,7 +28,10 @@ export const AdminScreen = ({ navigation }) => {
             navigation.navigate("ManageProfileScreen", { role: "agent" })
           }
         >
-          <FeatureCard title="Manage Agent" />
+          <FeatureCard
+            title="Manage Agent"
+            imgSrc="https://carzoo-bucket.s3.ap-south-1.amazonaws.com/car-agent.png"
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -36,13 +39,19 @@ export const AdminScreen = ({ navigation }) => {
             navigation.navigate("ManageProfileScreen", { role: "mechanic" })
           }
         >
-          <FeatureCard title="Manage Mechanic" />
+          <FeatureCard
+            title="Manage Mechanic"
+            imgSrc="https://carzoo-bucket.s3.ap-south-1.amazonaws.com/car-mechanic.png"
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => navigation.navigate("OrderListScreen")}
         >
-          <FeatureCard title="Manage Orders" />
+          <FeatureCard
+            title="Manage Service Orders"
+            imgSrc="https://carzoo-bucket.s3.ap-south-1.amazonaws.com/manage-car-periodic-service.png"
+          />
         </TouchableOpacity>
       </View>
     </SafeArea>

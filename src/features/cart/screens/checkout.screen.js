@@ -21,6 +21,7 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { AddressContext } from "../../../services/address/address.context";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { IPADDRESS } from "../../../utils/env";
+import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
 
 const CheckoutContainer = styled.View``;
 const DateTimeContainer = styled.View``;
@@ -69,6 +70,7 @@ export const CheckoutScreen = ({ navigation, route }) => {
   const [times, setTimes] = useState([]);
   const [pickupTime, setPickupTime] = useState([]);
   // const [address, setAddress] = useState({});
+
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const [addressError, setAddressError] = useState(false);
@@ -132,11 +134,13 @@ export const CheckoutScreen = ({ navigation, route }) => {
       }
     } catch (e) {
       console.log(e.response.data.message);
+      alert(e.response.data.message);
       setDisable(false);
     }
   };
   const ScrollViewContainer = styled(ScrollView)`
-    margin-top: 70px;
+    margin-top: 60px;
+    padding-top: 10px;
   `;
 
   const handleBackButtonClick = () => {
@@ -268,7 +272,11 @@ export const CheckoutScreen = ({ navigation, route }) => {
         </BillContainer>
       </ScrollViewContainer>
       <PaymentContainer>
-        <CancelButton labelStyle={{ fontSize: 16 }} mode="outlined">
+        <CancelButton
+          labelStyle={{ fontSize: 16 }}
+          mode="outlined"
+          onPress={() => navigation.goBack()}
+        >
           Cancel
         </CancelButton>
         <Button

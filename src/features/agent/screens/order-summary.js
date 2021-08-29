@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import styled from "styled-components/native";
 import { Header } from "../../../components/header/header.component";
@@ -8,13 +8,19 @@ import { PriceText } from "../../../components/typography/price-text.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { AddressContext } from "../../../services/address/address.context";
-import { AddressCard } from "../../cart/components/address-card.component";
+import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
+import {
+  AddressCard,
+  PickupDateTimeCard,
+} from "../../cart/components/address-card.component";
 import { AgentCard } from "../../profile/components/agent-card.component";
 import { ServiceStatus } from "../../profile/components/service-status.component";
+import { Swipe } from "../components/swipe-button.component";
 
 const OrderContainer = styled(ScrollView)`
   margin: 0 ${(props) => props.theme.space[2]};
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
 `;
 
 const OrderCard = styled.View`
@@ -43,17 +49,24 @@ const ServiceStatusContainer = styled.View`
 `;
 const ServiceAgentDetails = styled.View`
   margin: ${(props) => props.theme.space[1]};
+  margin-bottom: 20px;
 `;
+
 export const AgentOrderSummaryScreen = ({ navigation, route }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const { serviceOrder } = route.params;
-  const orderCreatedAt = new Date(serviceOrder.createdAt);
+  const {
+    getServiceOrder,
+    serviceOrder = null,
+    setServiceOrder,
+    isLoading = true,
+  } = useContext(BookingOrderContext);
+  const { serviceOrderId } = route.params;
+
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 200);
-  });
-  return (
+    getServiceOrder(serviceOrderId);
+    () => setServiceOrder(null);
+  }, []);
+
+  return serviceOrder !== null ? (
     <SafeArea>
       {isLoading ? (
         <LoadingDiv />
@@ -86,7 +99,17 @@ export const AgentOrderSummaryScreen = ({ navigation, route }) => {
             </OrderCard>
             <Spacer position="top" size="medium" />
             <Spacer position="left" size="medium">
-              <Text variant="label">{`Service Ordered on ${orderCreatedAt.toDateString()}`}</Text>
+              <Text variant="label">{`Service Ordered on ${new Date(
+                serviceOrder.createdAt
+              ).toDateString()}`}</Text>
+            </Spacer>
+            <Spacer position="top" size="large">
+              <Spacer position="left" size="medium">
+                <Text variant="subHead">Pickup Date and time</Text>
+              </Spacer>
+              <PickupDateTimeCard
+                pickupDateTime={serviceOrder.pickupDateTime}
+              />
             </Spacer>
             <Spacer position="top" size="large">
               <Spacer position="left" size="medium">
@@ -106,6 +129,17 @@ export const AgentOrderSummaryScreen = ({ navigation, route }) => {
               <Text variant="subHead">Service Status</Text>
               <ServiceStatus orderStatus={serviceOrder.orderStatus} />
             </ServiceStatusContainer>
+            {serviceOrder.deliveriedDate && (
+              <>
+                <Spacer position="top" size="large" />
+                <Spacer position="left" size="medium">
+                  <Text variant="label">{`Car deliveried on ${new Date(
+                    serviceOrder.deliveriedDate
+                  ).toDateString()}`}</Text>
+                </Spacer>
+              </>
+            )}
+            <Spacer position="top" size="large" />
             {!!serviceOrder.agent && (
               <ServiceAgentDetails>
                 <Text variant="subHead">Assigned to</Text>
@@ -113,10 +147,16 @@ export const AgentOrderSummaryScreen = ({ navigation, route }) => {
               </ServiceAgentDetails>
             )}
           </OrderContainer>
+          <Swipe
+            orderStatus={serviceOrder.orderStatus}
+            orderId={serviceOrder._id}
+          />
         </>
       ) : (
         <LoadingDiv />
       )}
     </SafeArea>
+  ) : (
+    <LoadingDiv />
   );
 };

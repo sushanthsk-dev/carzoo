@@ -16,10 +16,13 @@ const FeatureCardCover = styled(Card.Cover)`
   height: 120px;
   width: 156px;
 `;
-export const FeatureCard = ({ title,imgSrc='https://picsum.photos/700'}) => {
+export const FeatureCard = ({
+  title,
+  imgSrc = "https://picsum.photos/700",
+}) => {
   return (
     <FeatureCardContainer elevation={5}>
-        <FeatureCardCover source={{ uri: imgSrc }} />
+      <FeatureCardCover source={{ uri: imgSrc }} />
       <Spacer position="top" size="medium">
         <Spacer position="top" size="medium">
           <Spacer position="bottom" size="large">

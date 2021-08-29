@@ -12,6 +12,7 @@ import {
 import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
+import { InternetConnectionCheckContextProvider } from "./src/services/internetConnectionCheck/internetConnectionCheck.context";
 
 const SplashImage = styled.Image`
   width: 100%;
@@ -37,13 +38,15 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AuthenticationContextProvider>
-          {isLoading ? (
-            <SplashImage source={require("./assets/splash.png")} />
-          ) : (
-            <Navigation />
-          )}
-        </AuthenticationContextProvider>
+        <InternetConnectionCheckContextProvider>
+          <AuthenticationContextProvider>
+            {isLoading ? (
+              <SplashImage source={require("./assets/splash.png")} />
+            ) : (
+              <Navigation />
+            )}
+          </AuthenticationContextProvider>
+        </InternetConnectionCheckContextProvider>
       </ThemeProvider>
       <StatusBar style="auto" />
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { Image, TouchableOpacity, ScrollView } from "react-native";
 import { Button } from "react-native-paper";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -10,6 +10,7 @@ import { ProfileCard } from "../components/profile-card.component";
 import { Text } from "../../../components/typography/text.component";
 import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
 import { LoadingDiv } from "../../../components/loading/loading.component";
+import { NoOrderContainer } from "../../../components/no-order/no-order.component";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -44,8 +45,16 @@ const CardContainer = styled(ScrollView)`
   background-color: #fff;
 `;
 
-const AssignText = styled(Text)`
-  color: #fff;
+const Container = styled.View`
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+const ImageContainer = styled(Image)`
+  margin-left: 20px;
+  margin-bottom: 20px;
 `;
 
 const AssignButton = styled(Button)`
@@ -73,10 +82,6 @@ const CompletedText = styled(Text)`
   position: absolute;
   right: 10px;
   top: 24px;
-`;
-const ImageContainer = styled(Image)`
-  margin-left: 20px;
-  margin-bottom: 20px;
 `;
 
 const CardList = ({ serviceOrder }) => (
@@ -113,7 +118,7 @@ export const OrderListScreen = ({ navigation, name }) => {
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("OrderSummaryScreen", {
-                      serviceOrder: serviceOrder,
+                      serviceOrderId: serviceOrder._id,
                     })
                   }
                   key={serviceOrder._id}
@@ -137,11 +142,12 @@ export const OrderListScreen = ({ navigation, name }) => {
           )}
           {orderList.map(
             (serviceOrder) =>
-              serviceOrder.agent !== undefined && (
+              serviceOrder.agent !== undefined &&
+              serviceOrder.orderStatus !== "Deliveried" && (
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("OrderSummaryScreen", {
-                      serviceOrder: serviceOrder,
+                      serviceOrderId: serviceOrder._id,
                     })
                   }
                   key={serviceOrder._id}
@@ -154,6 +160,7 @@ export const OrderListScreen = ({ navigation, name }) => {
                 </TouchableOpacity>
               )
           )}
+          <NoOrderContainer text="No Service orders" />
         </CardContainer>
       </>
     ) : (
@@ -171,7 +178,7 @@ export const OrderListScreen = ({ navigation, name }) => {
                   key={serviceOrder._id}
                   onPress={() =>
                     navigation.navigate("OrderSummaryScreen", {
-                      serviceOrder: serviceOrder,
+                      serviceOrderId: serviceOrder._id,
                     })
                   }
                 >
@@ -180,10 +187,10 @@ export const OrderListScreen = ({ navigation, name }) => {
                 </TouchableOpacity>
               )
           )}
+          <NoOrderContainer />
         </CardContainer>
       ) : (
         <Container>
-          <ImageContainer source={require("../../../../assets/no-order.png")} />
           <Text variant="title">No Service Order</Text>
         </Container>
       )

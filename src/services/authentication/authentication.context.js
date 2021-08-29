@@ -81,7 +81,6 @@ export const AuthenticationContextProvider = ({ children }) => {
       }
     } catch (e) {
       setIsLoading(false);
-      console.log(e.response);
       setError(e.response.data.message);
     }
     setIsLoading(false);
@@ -148,6 +147,75 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (emailId, role) => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${IPADDRESS}/api/v1/${role}/forgotPassword`,
+        data: { email: emailId },
+      });
+      console.log(res.data.status);
+      if (res.data.status === "success") {
+        setIsLoading(false);
+        return "success";
+      }
+      setIsLoading(false);
+    } catch (e) {
+      setError(e.response.data.message);
+      setIsLoading(false);
+    }
+  };
+
+  const verifyResetToken = async (code, email, role) => {
+    setError(null);
+    setIsLoading(true);
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `${IPADDRESS}/api/v1/${role}/verifyResetToken/${code}`,
+      });
+      console.log(res.data);
+      if (res.data.status === "success") {
+        setIsLoading(false);
+        return res.data;
+      }
+      setIsLoading(false);
+    } catch (e) {
+      setError(e.response.data.message);
+      setIsLoading(false);
+    }
+  };
+
+  const resetPassword = async (code, role, password, passwordConfirm) => {
+    setError(null);
+    console.log(password, passwordConfirm);
+    setError(null);
+    setIsLoading(true);
+    try {
+      const res = await axios({
+        method: "PATCH",
+        url: `${IPADDRESS}/api/v1/${role}/resetPassword/${code}`,
+        data: {
+          password: password,
+          passwordConfirm: passwordConfirm,
+        },
+      });
+      console.log(res.data.user);
+      setUser(res.data.data.user);
+      setHeaderToken(res.data.token);
+      saveLoggedSession(res.data.token);
+      setResponse(null);
+      setIsLoading(false);
+      return "success";
+    } catch (e) {
+      setIsLoading(false);
+      setError(e.response.data.message);
+    }
+    setIsLoading(false);
+  };
+
   const onPasswordChange = async (
     oldPassword,
     password,
@@ -198,7 +266,10 @@ export const AuthenticationContextProvider = ({ children }) => {
       setIsLoading(false);
       return "success";
     }
-    const url = user.role ==='user' ? `${IPADDRESS}/api/v1/users/updateMe` : `${IPADDRESS}/api/v1/admin/updateMe` ;
+    const url =
+      user.role === "user"
+        ? `${IPADDRESS}/api/v1/users/updateMe`
+        : `${IPADDRESS}/api/v1/admin/updateMe`;
     try {
       const res = await axios({
         method: "PATCH",
@@ -210,8 +281,8 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
       setUser(res.data.data.updatedUser);
       setIsLoading(false);
-      if(res.data.status==='success') {
-      return "success";
+      if (res.data.status === "success") {
+        return "success";
       }
     } catch (e) {
       console.log("U", e.response.data.message);
@@ -242,6 +313,9 @@ export const AuthenticationContextProvider = ({ children }) => {
         error,
         onLogin,
         onRegister,
+        forgotPassword,
+        verifyResetToken,
+        resetPassword,
         headerToken,
         getLoggedSession,
         onPasswordChange,

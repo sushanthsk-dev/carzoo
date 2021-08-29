@@ -14,7 +14,8 @@ import { toastMessage } from "../../../components/toast-message/toast.component"
 const Tab = createMaterialTopTabNavigator();
 
 const Container = styled.View`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   flex: 1;
 `;
 
@@ -46,7 +47,6 @@ export const AgentListScreen = ({ navigation, name, route }) => {
     console.log("Assigned");
     const res = await assignAgent(orderId, agentId);
     if (res === "success") {
-      toastMessage("Mechanic created successfully");
       navigation.navigate("OrderListScreen");
     }
     // setTimeout(() => {
@@ -66,7 +66,8 @@ export const AgentListScreen = ({ navigation, name, route }) => {
           {agentMechanic !== null &&
             agentMechanic.map(
               (agent) =>
-                agent.role === "agent" && (
+                agent.role === "agent" &&
+                agent.active === true && (
                   <TouchableOpacity
                     onPress={() => onAssign(agent._id)}
                     key={agent._id}

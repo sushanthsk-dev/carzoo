@@ -11,7 +11,8 @@ import { ManageProfile } from "../components/manage-profile.component";
 const Tab = createMaterialTopTabNavigator();
 
 const OrderContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   flex: 1;
 `;
 

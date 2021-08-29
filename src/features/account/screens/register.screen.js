@@ -139,7 +139,7 @@ export const RegisterScreen = ({ navigation }) => {
         <SignInContainer>
           <Text>Already have an account? </Text>
           <TouchableWithoutFeedback
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("LoginScreen")}
           >
             <LinkText variant="body">Sign in</LinkText>
           </TouchableWithoutFeedback>

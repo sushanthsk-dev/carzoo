@@ -15,7 +15,8 @@ import { AgentMechanicContext } from "../../../services/agent-mechanic/agent-mec
 import { ProfilePhotoContainer } from "../../profile/components/profile-photo-container.component";
 
 const Container = styled(ScrollView)`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   height: 100%;
   padding: ${(props) => props.theme.space[2]};
 `;

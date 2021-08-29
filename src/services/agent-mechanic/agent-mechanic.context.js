@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { IPADDRESS } from "../../utils/env";
+import { toastMessage } from "../../components/toast-message/toast.component";
 export const AgentMechanicContext = createContext();
 
 export const AgentMechanicContextProvider = ({ children }) => {
@@ -61,10 +62,12 @@ export const AgentMechanicContextProvider = ({ children }) => {
           userId: userId,
         },
       });
-
+      toastMessage(`${role} deactivated `);
       if (res.data.status === "success") {
         getAgentMechanic(role);
         setIsLoading(false);
+        console.log(res.data.status);
+
         return "success";
       }
       setIsLoading(false);

@@ -42,6 +42,9 @@ const differenceBetweenDates = (date) => {
   return Math.ceil(difference / (1000 * 60 * 60 * 24));
 };
 export const InsuranceDocumentCard = ({ navigation, insuranceDocument }) => {
+  const remainingExpiryDate = differenceBetweenDates(
+    insuranceDocument.expiryDate
+  );
   return (
     <DocumentCardContainer>
       <Card>
@@ -74,17 +77,24 @@ export const InsuranceDocumentCard = ({ navigation, insuranceDocument }) => {
         </Body>
       </Card>
       <Spacer position="left" size="medium">
-        <Text variant="error">
-          {`Your insurance document will expire in ${differenceBetweenDates(
-            insuranceDocument.expiryDate
-          )}days`}
-        </Text>
+        {remainingExpiryDate > 0 ? (
+          <Text variant="error">
+            {`Your insurance document will expire in ${differenceBetweenDates(
+              emissionDocument.expiryDate
+            )}days`}
+          </Text>
+        ) : (
+          <Text variant="error">Your insurance document expired</Text>
+        )}
       </Spacer>
     </DocumentCardContainer>
   );
 };
 
 export const EmissionDocumentCard = ({ navigation, emissionDocument }) => {
+  const remainingExpiryDate = differenceBetweenDates(
+    emissionDocument.expiryDate
+  );
   return (
     <DocumentCardContainer>
       <Card>
@@ -117,11 +127,15 @@ export const EmissionDocumentCard = ({ navigation, emissionDocument }) => {
         </Body>
       </Card>
       <Spacer position="left" size="medium">
-        <Text variant="error">
-          {`Your emission document will expire in ${differenceBetweenDates(
-            emissionDocument.expiryDate
-          )}days`}
-        </Text>
+        {remainingExpiryDate > 0 ? (
+          <Text variant="error">
+            {`Your emission document will expire in ${differenceBetweenDates(
+              emissionDocument.expiryDate
+            )}days`}
+          </Text>
+        ) : (
+          <Text variant="error">Your emission document expired</Text>
+        )}
       </Spacer>
     </DocumentCardContainer>
   );

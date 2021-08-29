@@ -82,14 +82,18 @@ export const LoginScreen = ({ navigation }) => {
           )}
         </Spacer>
         <ForgotPasswordContainer>
-          <TouchableWithoutFeedback onPress={() => console.log("Hello")}>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              navigation.navigate("ForgotPasswordScreen", { role: "users" })
+            }
+          >
             <LinkText variant="body">Forget Password?</LinkText>
           </TouchableWithoutFeedback>
         </ForgotPasswordContainer>
         <SignUpContainer>
           <Text>Don't have account? </Text>
           <TouchableWithoutFeedback
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.navigate("RegisterScreen")}
           >
             <LinkText variant="body">Sign up</LinkText>
           </TouchableWithoutFeedback>
@@ -99,7 +103,7 @@ export const LoginScreen = ({ navigation }) => {
         <TouchableWithoutFeedback
           onPress={() => {
             setError(null);
-            navigation.navigate("AdminLogin");
+            navigation.navigate("AdminLoginScreen");
           }}
         >
           <LinkText variant="body">Admin Login</LinkText>

@@ -31,7 +31,6 @@ export const AdminLoginScreen = ({ navigation }) => {
     AuthenticationContext
   );
   useEffect(() => {
-
     if (response !== null) {
       navigation.navigate("ChangePassword", {
         oldPassword: password,
@@ -85,7 +84,11 @@ export const AdminLoginScreen = ({ navigation }) => {
           )}
         </Spacer>
         <ForgotPasswordContainer>
-          <TouchableWithoutFeedback onPress={() => console.log("Forget")}>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              navigation.navigate("ForgotPasswordScreen", { role: "admin" })
+            }
+          >
             <LinkText variant="body">Forget Password?</LinkText>
           </TouchableWithoutFeedback>
         </ForgotPasswordContainer>
@@ -94,7 +97,7 @@ export const AdminLoginScreen = ({ navigation }) => {
         <TouchableWithoutFeedback
           onPress={() => {
             setError(null);
-            navigation.navigate("Login");
+            navigation.navigate("LoginScreen");
           }}
         >
           <LinkText variant="body">User Login</LinkText>

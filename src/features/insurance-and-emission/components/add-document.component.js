@@ -17,7 +17,8 @@ import { LoadingDiv } from "../../../components/loading/loading.component";
 import { EmissionDocumentContext } from "../../../services/documents/emission-document.context";
 import { toastMessage } from "../../../components/toast-message/toast.component";
 const DocumentContainer = styled(ScrollView)`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   flex: 1;
   margin-left: auto;
 

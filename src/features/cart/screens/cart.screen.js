@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components/native";
+import { BackHandler } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { CommonButton } from "../components/cart.styles";
@@ -14,7 +15,8 @@ import { validate } from "validate.js";
 import { colors } from "../../../infrastructure/theme/colors";
 
 const CartContainer = styled.View`
-  margin-top: 70px;
+  margin-top: 60px;
+  padding-top: 10px;
   width: 100%;
   height: 100%;
 `;
@@ -77,7 +79,19 @@ export const CartScreen = ({ route, navigation }) => {
   let toLeftBoolean = false;
   const { toLeft, servicePlan } = route.params;
   toLeftBoolean = toLeft === true ? true : false;
-
+  const handleBackButtonClick = () => {
+    navigation.popToTop();
+    return true;
+  };
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
   return (
     <SafeArea>
       <Header title="Cart" toLeft={toLeftBoolean} navigation={navigation} />
@@ -134,7 +148,6 @@ export const CartScreen = ({ route, navigation }) => {
           <CheckoutButton
             disabled={disable}
             onPress={() => {
-              console.log("HE", typeof pincode);
               if (parseInt(pincode) === 574227) {
                 navigation.navigate("CheckoutScreen", {
                   servicePlan: servicePlan,
