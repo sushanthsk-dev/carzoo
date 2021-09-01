@@ -11,6 +11,7 @@ import { ProfileCard } from "../components/profile-card.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { AgentMechanicContext } from "../../../services/agent-mechanic/agent-mechanic.context";
 import { LoadingDiv } from "../../../components/loading/loading.component";
+import { NoOrderContainer } from "../../../components/no-order/no-order.component";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -74,6 +75,7 @@ export const ManageProfile = ({ navigation, role }) => {
                 )
               );
             })}
+          <NoOrderContainer text={`No ${role}`} />
         </CardContainer>
         <AddButton
           onPress={() => navigation.navigate("AddUserScreen", { role: role })}
@@ -105,6 +107,7 @@ export const ManageProfile = ({ navigation, role }) => {
               )
             );
           })}
+        <NoOrderContainer text={`No ${role}`} />
       </CardContainer>
     );
   };

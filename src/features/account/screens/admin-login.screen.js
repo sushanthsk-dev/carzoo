@@ -32,11 +32,12 @@ export const AdminLoginScreen = ({ navigation }) => {
   );
   useEffect(() => {
     if (response !== null) {
-      navigation.navigate("ChangePassword", {
+      navigation.navigate("ChangePasswordScreen", {
         oldPassword: password,
         id: response.id,
       });
     }
+    () => setError(null);
   }, [response]);
   return (
     <AccountBackground>

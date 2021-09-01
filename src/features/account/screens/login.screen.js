@@ -36,6 +36,9 @@ export const LoginScreen = ({ navigation }) => {
   const { onLogin, isLoading, error, setError } = useContext(
     AuthenticationContext
   );
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
 
   return (
     <AccountBackground>

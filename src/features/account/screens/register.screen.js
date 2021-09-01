@@ -36,7 +36,9 @@ export const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
   const [repeatedpassword, setRepeatedPassword] = useState(null);
-  const { onRegister, isLoading, error } = useContext(AuthenticationContext);
+  const { onRegister, isLoading, error, setError } = useContext(
+    AuthenticationContext
+  );
   const [nameError, setNameError] = useState(null);
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
@@ -67,6 +69,10 @@ export const RegisterScreen = ({ navigation }) => {
     }
     onRegister(name, email, password, repeatedpassword);
   };
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
 
   return (
     <AccountBackground>

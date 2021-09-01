@@ -65,7 +65,6 @@ export const AuthenticationContextProvider = ({ children }) => {
       if (isAdmin === true) {
         console.log(res.data.data.user);
         if (!res.data.data.user.isNewUser) {
-          console.log("LOGGED", res.data.token);
           setHeaderToken(res.data.token);
           saveLoggedSession(res.data.token);
           setUser(res.data.data.user);
@@ -311,6 +310,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         user,
         isLoading,
         error,
+        setError,
         onLogin,
         onRegister,
         forgotPassword,
@@ -322,7 +322,6 @@ export const AuthenticationContextProvider = ({ children }) => {
         isUserLoggedIn,
         onLogout,
         setUser,
-        setError,
         response,
         updateUserDetails,
       }}

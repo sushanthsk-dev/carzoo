@@ -29,11 +29,17 @@ export const ResetPasswordScren = ({ navigation, route }) => {
   const { code, role } = route.params;
   const [password, setPassword] = useState("test1234");
   const [repeatedPassword, setRepeatedPassword] = useState("test1234");
-  const { resetPassword, isLoading, error } = useContext(AuthenticationContext);
+  const { resetPassword, isLoading, error, setError } = useContext(
+    AuthenticationContext
+  );
 
   const onResetPassword = async () => {
     await resetPassword(code, role, password, repeatedPassword);
   };
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
 
   return (
     <SafeArea>

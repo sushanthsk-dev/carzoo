@@ -30,14 +30,16 @@ export const ChangePasswordScreen = ({ navigation, route }) => {
   const { oldPassword, id } = route.params;
   const [password, setPassword] = useState("test1234");
   const [repeatedPassword, setRepeatedPassword] = useState("test1234");
-  const { onPasswordChange, isLoading, error } = useContext(
+  const { onPasswordChange, isLoading, error, setError } = useContext(
     AuthenticationContext
   );
 
   const onChangePassword = () => {
     onPasswordChange(oldPassword, password, repeatedPassword, id);
   };
-
+  React.useContext(() => {
+    () => setError(null);
+  }, []);
   return (
     <SafeArea>
       <Header title="Reset Password" toLeft={true} navigation={navigation} />

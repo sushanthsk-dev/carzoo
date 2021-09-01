@@ -12,6 +12,7 @@ export const AgentMechanicContextProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const getAgentMechanic = async (role) => {
+    setError(null);
     setIsLoading(true);
     try {
       const res = await axios({
@@ -29,6 +30,7 @@ export const AgentMechanicContextProvider = ({ children }) => {
     }
   };
   const createAgentMechanic = async (data, role) => {
+    setError(null);
     setIsLoading(true);
     try {
       const res = await axios({
@@ -52,6 +54,7 @@ export const AgentMechanicContextProvider = ({ children }) => {
   };
 
   const deactivateAgentMechanic = async (userId, role) => {
+    setError(null);
     setIsLoading(true);
     try {
       const res = await axios({
@@ -79,6 +82,7 @@ export const AgentMechanicContextProvider = ({ children }) => {
     }
   };
   const activateAgentMechanic = async (userId, role) => {
+    setError(null);
     setIsLoading(true);
     try {
       const res = await axios({
@@ -106,6 +110,37 @@ export const AgentMechanicContextProvider = ({ children }) => {
   // useEffect(() => {
   //   getAgentMechanic();
   // }, []);
+
+  // Mechanic add current location
+  // const addMechanicLocation = async (coordinate) => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const res = await axios({
+  //       method: "PATCH",
+  //       url: `${IPADDRESS}/api/v1/admin/current-location`,
+  //       headers: { Authorization: `Bearer ${headerToken}` },
+  //       data: {
+  //         location: coordinates : [coordinate.lat,],
+  //       },
+  //     });
+  //     if (res.data.status === "success") {
+  //       setUpdate(true);
+  //       setServiceOrder(res.data.data.data);
+  //       filteredServiceOrderedList(orderId, orderStatus);
+  //       setIsLoading(false);
+  //       toastMessage(`location added successfully`);
+  //       return "success";
+  //     }
+  //     setIsLoading(false);
+  //     // setAgentMechanic(res.data.data.doc);
+  //   } catch (e) {
+  //     console.log("E", e.response.data);
+  //     setError(e.response.data.message);
+  //     setIsLoading(false);
+  //   }
+  // };
+
   return (
     <AgentMechanicContext.Provider
       value={{
@@ -116,6 +151,8 @@ export const AgentMechanicContextProvider = ({ children }) => {
         deactivateAgentMechanic,
         activateAgentMechanic,
         isLoading,
+        error,
+        setError,
       }}
     >
       {children}

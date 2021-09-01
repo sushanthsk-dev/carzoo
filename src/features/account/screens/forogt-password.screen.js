@@ -28,7 +28,7 @@ export const ForgotPasswordScreen = ({ navigation, route }) => {
   const [email, setEmail] = useState(null);
   const [emailError, setEmailError] = useState(null);
   const { role } = route.params;
-  const { isLoading, error, forgotPassword } = useContext(
+  const { isLoading, error, forgotPassword, setError } = useContext(
     AuthenticationContext
   );
 
@@ -49,6 +49,10 @@ export const ForgotPasswordScreen = ({ navigation, route }) => {
       navigation.navigate("VerifyScreen", { email: email, role: role });
     }
   };
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
   return (
     <SafeArea>
       <Container>

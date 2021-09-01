@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Modal, View } from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { Spacer } from "../../components/spacer/spacer.component";
@@ -19,7 +19,7 @@ const ImageContainer = styled.Image`
   resize-mode: contain;
 `;
 
-export const NoInternetConnection = ({ show, onRetry, isRetrying }) => (
+export const GPSMapErrorScreen = ({ show, onRetry, isRetrying }) => (
   <Modal isVisible={show} style={styles.modal} animationInTiming={600}>
     <View style={styles.modalContainer}>
       <Text style={styles.modalTitle}>Connection Error</Text>
@@ -27,7 +27,7 @@ export const NoInternetConnection = ({ show, onRetry, isRetrying }) => (
         Oops! Looks like your device is not connected to the Internet.
       </Text>
       <Button onPress={onRetry} disabled={isRetrying}>
-        Try Again
+        Grant location permission
       </Button>
     </View>
   </Modal>

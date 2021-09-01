@@ -17,9 +17,16 @@ import { toastMessage } from "../../../components/toast-message/toast.component"
 
 const Container = styled.View`
   margin-top: 50px;
-  flex: 1;
+  margin-bottom: 30px;
+
   align-items: center;
   justify-content: center;
+`;
+
+const TextError = styled(Text)`
+  margin-left: 5px;
+  width: 340px;
+  flex-wrap: wrap;
 `;
 
 const Button = styled(ReactButton)`
@@ -27,7 +34,8 @@ const Button = styled(ReactButton)`
 `;
 
 export const AddUserScreen = ({ navigation, route }) => {
-  const { createAgentMechanic, isLoading } = useContext(AgentMechanicContext);
+  const { createAgentMechanic, isLoading, error, setError } =
+    useContext(AgentMechanicContext);
   const { role, user = null } = route.params;
 
   const {
@@ -56,6 +64,11 @@ export const AddUserScreen = ({ navigation, route }) => {
       navigation.goBack();
     }
   };
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
+
   return (
     <SafeArea>
       <Header
@@ -95,22 +108,30 @@ export const AddUserScreen = ({ navigation, route }) => {
                 control={control}
               />
               {errors.email && (
-                <Text variant="error">Please enter the email</Text>
+                <Text variant="error">
+                  {errors.email.type === "required"
+                    ? "Please enter the email address"
+                    : "Please enter valid email address"}
+                </Text>
               )}
             </Spacer>
             <Spacer size="larger">
               <InputController
                 label="phoneno(Required)*"
-                rules={{ required: true }}
+                rules={{ required: true, pattern: /^[789]\d{9}$/ }}
                 name="phoneno"
                 placeValue={setPlaceValue}
                 divide={false}
                 text={false}
                 control={control}
-                maxlength={10}
+                maxLength={10}
               />
               {errors.phoneno && (
-                <Text variant="error">Please enter the phone no</Text>
+                <Text variant="error">
+                  {errors.phoneno.type === "required"
+                    ? "Please enter the phone number"
+                    : "Please enter valid phone number"}
+                </Text>
               )}
             </Spacer>
             <Spacer size="larger">
@@ -135,11 +156,21 @@ export const AddUserScreen = ({ navigation, route }) => {
                 divide={false}
                 text={false}
                 control={control}
+                maxLength={6}
               />
               {errors.pincode && (
-                <Text variant="error">Please enter pincode</Text>
+                <Text variant="error">
+                  {errors.pincode.type === "required"
+                    ? "Please enter pincode address"
+                    : "Please enter valid 6 digit pincode "}
+                </Text>
               )}
             </Spacer>
+            {error && (
+              <Spacer size="larger">
+                <TextError variant="error">{error}</TextError>
+              </Spacer>
+            )}
             <Spacer size="larger">
               {!isLoading ? (
                 <Button mode="contained" onPress={handleSubmit(onSubmit)}>

@@ -21,7 +21,7 @@ const Container = styled.View`
 export const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState(null);
   const [codeError, setCodeError] = useState(null);
-  const { isLoading, error, verifyResetToken, forgotPassword } = useContext(
+  const { isLoading, error, verifyResetToken, setError } = useContext(
     AuthenticationContext
   );
   const { email, role } = route.params;
@@ -46,6 +46,10 @@ export const VerifyScreen = ({ navigation, route }) => {
       }
     }
   };
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
   return (
     <SafeArea>
       <Container>

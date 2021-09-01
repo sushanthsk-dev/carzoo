@@ -112,15 +112,17 @@ const MechanicMap = ({ navigation }) => {
           await CurrentLocation.requestForegroundPermissionsAsync();
         if (status !== "granted") {
           setErrorMsg("Permission to access location was denied");
-          return;
+          return null;
+        } else {
+          let location = await CurrentLocation.getCurrentPositionAsync({
+            accuracy: CurrentLocation.Accuracy.High,
+          });
+          setCurrentLocation({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          });
+          setIsLoading(false);
         }
-
-        let location = await CurrentLocation.getCurrentPositionAsync({});
-        setCurrentLocation({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        });
-        setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
         console.log(e.response.data.message);
