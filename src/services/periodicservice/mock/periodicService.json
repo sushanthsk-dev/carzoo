@@ -8,6 +8,14 @@
         "4 hours takes",
         "Recommended for every 4000km / 3 Months",
         "Includes 7 services",
+      ],
+      "services" : [
+        "General check up",
+        "Water wash",
+        "Wheel alignment",
+        "Tyre check",
+        "Break test",
+        "Mileage check"
       ]
     },
     {
@@ -17,9 +25,20 @@
       "price": 6099,
       "features": [
         "4 hours takes",
-        "Recommended for every 10000 km / 6 Months",
+        "Recommended for every 10000KM/6Months",
         "Includes 10 services",
       ],
+      "services":[
+        "General check up",
+        "Oil change",
+        "Coolent",
+        "Ac check",
+        "Water wash",
+        "Wheel alignment",
+        "Tyre check",
+        "Break test",
+        "Mileage check"
+      ]
     },
     {"id":"C4575",
       "title": "Comprehensive Service",
@@ -27,9 +46,23 @@
       "price": 10099,
       "features": [
         "5 hours takes",
-        "Recommended for every 25000Km / 10 Months",
+        "Recommended for every 25000KM/10Months",
         "Includes 13 services",
       ],
+      "services":[
+        "Oil change",
+        "Coolent",
+        "Ac check",
+        "General check up",
+        "Water wash",
+        "Wheel alignment",
+        "Tyre check",
+        "Break test",
+        "Mileage check",
+        "Break liner change",
+        "Suspension check",
+        "Break,power steering oil"
+      ]
     }
   ]
 };

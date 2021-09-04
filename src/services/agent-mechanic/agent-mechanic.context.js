@@ -6,7 +6,7 @@ import { toastMessage } from "../../components/toast-message/toast.component";
 export const AgentMechanicContext = createContext();
 
 export const AgentMechanicContextProvider = ({ children }) => {
-  const { headerToken } = useContext(AuthenticationContext);
+  const { headerToken, user, setUser } = useContext(AuthenticationContext);
   const [agentMechanic, setAgentMechanic] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -112,34 +112,36 @@ export const AgentMechanicContextProvider = ({ children }) => {
   // }, []);
 
   // Mechanic add current location
-  // const addMechanicLocation = async (coordinate) => {
-  //   setIsLoading(true);
-
-  //   try {
-  //     const res = await axios({
-  //       method: "PATCH",
-  //       url: `${IPADDRESS}/api/v1/admin/current-location`,
-  //       headers: { Authorization: `Bearer ${headerToken}` },
-  //       data: {
-  //         location: coordinates : [coordinate.lat,],
-  //       },
-  //     });
-  //     if (res.data.status === "success") {
-  //       setUpdate(true);
-  //       setServiceOrder(res.data.data.data);
-  //       filteredServiceOrderedList(orderId, orderStatus);
-  //       setIsLoading(false);
-  //       toastMessage(`location added successfully`);
-  //       return "success";
-  //     }
-  //     setIsLoading(false);
-  //     // setAgentMechanic(res.data.data.doc);
-  //   } catch (e) {
-  //     console.log("E", e.response.data);
-  //     setError(e.response.data.message);
-  //     setIsLoading(false);
-  //   }
-  // };
+  const addMechanicLocation = async (coordinate) => {
+    setIsLoading(true);
+    const location = {
+      location: {
+        type: "Point",
+        coordinates: [coordinate.longitude, coordinate.latitude],
+      },
+    };
+    try {
+      console.log(user);
+      const res = await axios({
+        method: "PATCH",
+        url: `${IPADDRESS}/api/v1/admin/current-location`,
+        headers: { Authorization: `Bearer ${headerToken}` },
+        data: location,
+      });
+      if (res.data.status === "success") {
+        setIsLoading(false);
+        setUser(res.data.data.updatedUser);
+        toastMessage("location added successfully");
+        return "success";
+      }
+      setIsLoading(false);
+      // setAgentMechanic(res.data.data.doc);
+    } catch (e) {
+      console.log("E", e.response.data);
+      setError(e.response.data.message);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <AgentMechanicContext.Provider
@@ -150,6 +152,7 @@ export const AgentMechanicContextProvider = ({ children }) => {
         createAgentMechanic,
         deactivateAgentMechanic,
         activateAgentMechanic,
+        addMechanicLocation,
         isLoading,
         error,
         setError,

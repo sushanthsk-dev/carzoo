@@ -9,7 +9,9 @@ import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { CartContext } from "../../../services/Cart/cart.context";
+import { NetworkContext } from "../../../services/internetConnectionCheck/internet-network.context";
 import { PeriodicServiceContext } from "../../../services/periodicservice/periodicservice.context";
+import { NoInternetErrorScreen } from "../../gps-map-error/no-internet-connection";
 import { PeriodicServiceInfo } from "../components/periodic-service-info.component";
 const PeriodicServiceContainer = styled.View`
   width: 100%;
@@ -34,6 +36,7 @@ export const PeriodicServiceScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const { periodicServicePlans } = useContext(PeriodicServiceContext);
 
+  const context = React.useContext(NetworkContext);
   const { cart } = useContext(CartContext);
 
   const handleBackButtonClick = () => {
@@ -51,6 +54,9 @@ export const PeriodicServiceScreen = ({ navigation }) => {
   }, []);
   return (
     <SafeArea>
+      {context.isConnected && (
+        <NoInternetErrorScreen show={true} navigation={navigation} />
+      )}
       <Header
         navigation={navigation}
         topNavigate={true}

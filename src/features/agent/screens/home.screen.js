@@ -11,6 +11,8 @@ import { Text } from "../../../components/typography/text.component";
 import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
 import { LoadingDiv } from "../../../components/loading/loading.component";
 import { NoOrderContainer } from "../../../components/no-order/no-order.component";
+import { NetworkContext } from "../../../services/internetConnectionCheck/internet-network.context";
+import { NoInternetErrorScreen } from "../../gps-map-error/no-internet-connection";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -67,7 +69,6 @@ const CompletedText = styled(Text)`
   right: 10px;
   top: 24px;
 `;
-
 const CardList = ({ serviceOrder, orderId, servicePlan }) => {
   return (
     <Card>
@@ -87,10 +88,12 @@ export const AgentOrderListScreen = ({ navigation, name }) => {
   const { getAgentAssignedOrders, isLoading, agentAssignedOrderList } =
     React.useContext(BookingOrderContext);
 
+  const context = React.useContext(NetworkContext);
   React.useEffect(() => {
     getAgentAssignedOrders();
   }, []);
 
+  console.log("LOD", isLoading);
   const onGoingOrders = () => {
     return !isLoading ? (
       <>
@@ -159,6 +162,10 @@ export const AgentOrderListScreen = ({ navigation, name }) => {
 
   return (
     <SafeArea>
+      {context.isConnected && (
+        <NoInternetErrorScreen show={true} navigation={navigation} />
+      )}
+
       <Header title="Manage Orders" />
       <OrderContainer>
         <Tab.Navigator>

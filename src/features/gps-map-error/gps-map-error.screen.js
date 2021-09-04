@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Modal, View } from "react-native";
+import { StyleSheet, Modal, View, BackHandler } from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
+import { Header } from "../../components/header/header.component";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/text.component";
 import { SafeArea } from "../../components/utility/safe-area.component";
@@ -19,29 +20,51 @@ const ImageContainer = styled.Image`
   resize-mode: contain;
 `;
 
-export const GPSMapErrorScreen = ({ errorMsg, grantGPS }) => (
-  <Modal style={styles.modal} animationInTiming={600}>
-    <View style={styles.modalContainer}>
-      <Text style={styles.modalTitle}>
-        {errorMsg !== null
-          ? "GPS Location Required"
-          : "Location access permission is required"}
-      </Text>
-      <Text style={styles.modalText}>
-        {errorMsg !== null
-          ? "Oops! Looks like your GPS location is not connected."
-          : errorMsg}
-      </Text>
-      <Button onPress={grantGPS}>Grant location permission</Button>
-    </View>
-  </Modal>
-);
+export const GPSMapErrorScreen = ({ errorMsg, grantGPS, navigation }) => {
+  const handleBackButtonClick = () => {
+    navigation.goBack();
+    return true;
+  };
+  React.useEffect(() => {
+    //  grantGPS();
+   // grantGPS();
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
+  return (
+    <>
+      <Header toLeft={true} navigation={navigation}  />
+      <View style={styles.modal} animationInTiming={600}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>
+            {errorMsg ? "GPS Location Required" : "GPS Location Required"}
+          </Text>
+          <Text style={styles.modalText}>
+            {errorMsg
+              ? "Oops! Looks like your GPS location is not connected."
+              : "Oops! Looks like your GPS location is not connected."}
+          </Text>
+          <Text style={styles.modalText}>
+            Please go to app setting and allow the app to use location service
+          </Text>
+        </View>
+      </View>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   // ...
   modal: {
     justifyContent: "flex-end",
+    backgroundColor: "white",
     margin: 0,
+    zIndex: 999,
   },
   modalContainer: {
     backgroundColor: "#fff",

@@ -22,6 +22,7 @@ import { AddressContext } from "../../../services/address/address.context";
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { IPADDRESS } from "../../../utils/env";
 import { BookingOrderContext } from "../../../services/order-list/booking-order.context";
+import { PeriodicServiceContext } from "../../../services/periodicservice/periodicservice.context";
 
 const CheckoutContainer = styled.View``;
 const DateTimeContainer = styled.View``;
@@ -77,7 +78,7 @@ export const CheckoutScreen = ({ navigation, route }) => {
   const [disable, setDisable] = useState(false);
   const { headerToken, user } = React.useContext(AuthenticationContext);
   const { date, addDate, removeDate } = React.useContext(DateContext);
-
+  const { setPeriodicService } = React.useContext(PeriodicServiceContext);
   const { time, addTime, removeTime } = React.useContext(TimeContext);
   const { address } = React.useContext(AddressContext);
   console.log(address);
@@ -129,6 +130,7 @@ export const CheckoutScreen = ({ navigation, route }) => {
           setDisable(false);
           removeDate(null);
           removeTime([]);
+          setPeriodicService([]);
         }, 100);
         navigation.navigate("OrderScreen", { orderId: res.data.data._id });
       }

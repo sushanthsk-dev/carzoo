@@ -105,8 +105,7 @@ export const BookingOrderContextProvider = ({ children }) => {
       setIsLoading(false);
       // setAgentMechanic(res.data.data.doc);
     } catch (e) {
-      console.log("E", e.response.data);
-      setError(e.response.data.message);
+      setError(e);
       setIsLoading(false);
     }
   };

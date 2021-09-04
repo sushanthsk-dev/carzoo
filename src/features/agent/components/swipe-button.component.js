@@ -13,8 +13,7 @@ export const Swipe = ({ orderStatus, orderId }) => {
   const [title, setTitle] = React.useState(serviceStatus[currentStatusIndex]);
   const { updateServiceOrderStatus, getBookingOrders } =
     React.useContext(BookingOrderContext);
-  React.useEffect(() => {
-    () => setTitle(null);
+  React.useEffect(() => { 
   }, []);
   return (
     <SwipeBtnSection>

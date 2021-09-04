@@ -97,10 +97,12 @@ export const AddInsuranceDocument = ({ navigation }) => {
       setExpiryDateError("Please select expiryDate");
       return;
     }
-    data.expiryDate = `${expiryDate} 23:59:59`;
+    data.expiryDate = `${expiryDate} 23:59:00`;
     const res = await createDocument(data);
     if (res === "success") {
-      toastMessage("Insurance document created successfully");
+      insuranceDocument === null
+        ? toastMessage("Insurance document created successfully")
+        : toastMessage("Insurance document updated successfully");
       setInsuranceDocument(await getDocument());
       navigation.goBack();
     }
@@ -156,7 +158,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
       <Spacer size="large">
         <InputController
           label="Insurance Company Name(Required)*"
-          rules={{ required: true }}
+          rules={{ required: true, pattern: /^[a-zA-Z0-9_ ]*$/ }}
           name="insuranceCompanyName"
           placeValue={setPlaceValue}
           divide={false}
@@ -164,7 +166,11 @@ export const AddInsuranceDocument = ({ navigation }) => {
           control={control}
         />
         {errors.insuranceCompanyName && (
-          <Text variant="error">Please enter the insurance company name</Text>
+          <Text variant="error">
+            {errors.insuranceCompanyName.type
+              ? "Please enter the insurance company name"
+              : "Please enter the correct insurance company name"}
+          </Text>
         )}
       </Spacer>
       <Spacer size="large">
@@ -331,10 +337,12 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
       setExpiryDateError("Please select expiryDate");
       return;
     }
-    data.expiryDate = `${expiryDate} 23:59:59`;
+    data.expiryDate = `${expiryDate} 23:58:00`;
     const res = await createDocument(data);
     if (res === "success") {
-      toastMessage("Emission document created successfully");
+      emissionDocument === null
+        ? toastMessage("Emission document created successfully")
+        : toastMessage("Emission document updated successfully");
       setEmissionDocument(await getDocument());
       navigation.goBack();
     }

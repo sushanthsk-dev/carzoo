@@ -45,6 +45,14 @@ const SubmitButton = styled(Button)`
   height: 60px;
   justify-content: center;
 `;
+
+const EmptyCartContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 export const CartScreen = ({ route, navigation }) => {
   const [pincode, setPincode] = useState("574227");
   const [disable, setDisable] = useState(true);
@@ -162,14 +170,13 @@ export const CartScreen = ({ route, navigation }) => {
         </>
       )}
       {!cart.id && (
-        <CartContainer>
-          <Spacer>
-            <Text>Cart is Empty</Text>
-            <TouchableOpacity onPress={() => navigation.popToTop()}>
-              <Text>Click here to go Home</Text>
-            </TouchableOpacity>
-          </Spacer>
-        </CartContainer>
+        <EmptyCartContainer>
+          <Text variant="checkoutTitle">Cart is Empty</Text>
+          <Spacer size="large" />
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
+            <Text>Click here to go Home</Text>
+          </TouchableOpacity>
+        </EmptyCartContainer>
       )}
     </SafeArea>
   );

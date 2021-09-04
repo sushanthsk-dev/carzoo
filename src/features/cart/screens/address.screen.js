@@ -4,7 +4,6 @@ import { View, ScrollView, KeyboardAvoidingView } from "react-native";
 import { Button, ActivityIndicator, Colors } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
-import { IPADDRESS } from "../../../utils/env";
 import { Header } from "../../../components/header/header.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";

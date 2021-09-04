@@ -32,7 +32,7 @@ export const PeriodicServiceContextProvider = ({ children }) => {
   }, []);
   return (
     <PeriodicServiceContext.Provider
-      value={{ periodicServicePlans: periodicService }}
+      value={{ periodicServicePlans: periodicService, setPeriodicService }}
     >
       {children}
     </PeriodicServiceContext.Provider>

@@ -82,7 +82,7 @@ export const AddUserScreen = ({ navigation, route }) => {
             <Spacer size="larger">
               <InputController
                 label="Name(Required)*"
-                rules={{ required: true }}
+                rules={{ required: true, pattern: /^[a-zA-Z_ ]*$/ }}
                 name="name"
                 placeValue={setPlaceValue}
                 divide={false}
@@ -90,7 +90,11 @@ export const AddUserScreen = ({ navigation, route }) => {
                 control={control}
               />
               {errors.name && (
-                <Text variant="error">Please enter the name</Text>
+                <Text variant="error">
+                  {errors.name.type === "required"
+                    ? "Please enter the name"
+                    : "Please enter only alphabet letters"}
+                </Text>
               )}
             </Spacer>
             <Spacer size="larger">
@@ -137,7 +141,7 @@ export const AddUserScreen = ({ navigation, route }) => {
             <Spacer size="larger">
               <InputController
                 label="Location for work(Required)*"
-                rules={{ required: true }}
+                rules={{ required: true, pattern: /^[a-zA-Z]+$/ }}
                 name="workAssignedLocation"
                 placeValue={setPlaceValue}
                 divide={false}
@@ -145,7 +149,11 @@ export const AddUserScreen = ({ navigation, route }) => {
                 control={control}
               />
               {errors.location && (
-                <Text variant="error">Please enter the location</Text>
+                <Text variant="error">
+                  {errors.locatio.type === "required"
+                    ? "Please enter the location"
+                    : "Please enter only alphabet letters"}
+                </Text>
               )}
             </Spacer>
             <Spacer size="larger">

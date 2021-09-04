@@ -2,6 +2,8 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { SafeArea } from "../../../components/utility/safe-area.component";
+import { NetworkContext } from "../../../services/internetConnectionCheck/internet-network.context";
+import { NoInternetErrorScreen } from "../../gps-map-error/no-internet-connection";
 import { FeatureCard } from "../../home/components/home.component";
 
 const View = styled.View`
@@ -18,10 +20,14 @@ const LogoImageContainer = styled.Image`
   margin: 6px auto;
 `;
 export const AdminScreen = ({ navigation }) => {
+  const context = React.useContext(NetworkContext);
   return (
     <SafeArea>
-      <LogoImageContainer source={require("../../../../assets/logo1.png")} />
+      {context.isConnected && (
+        <NoInternetErrorScreen show={true} navigation={navigation} />
+      )}
 
+      <LogoImageContainer source={require("../../../../assets/logo1.png")} />
       <View>
         <TouchableOpacity
           onPress={() =>

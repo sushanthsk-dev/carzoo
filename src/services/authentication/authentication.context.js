@@ -109,6 +109,10 @@ export const AuthenticationContextProvider = ({ children }) => {
         setIsLoading(false);
         return user;
       } catch (e) {
+        if (e.code === undefined) {
+          setIsLoading(false);
+          return toastMessage("No network connection");
+        }
         console.log("E", e);
         setIsLoading(false);
       }
@@ -298,6 +302,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   };
   React.useEffect(() => {
     isUserLoggedIn();
+    console.log("RUN");
     setError(null);
     setResponse(null);
     setIsLoading(false);

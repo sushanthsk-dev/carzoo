@@ -1,10 +1,11 @@
-import React from "react";
-import { StyleSheet, Modal, View } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, Modal, View, BackHandler } from "react-native";
 import { Button } from "react-native-paper";
 import styled from "styled-components/native";
 import { Spacer } from "../../components/spacer/spacer.component";
 import { Text } from "../../components/typography/text.component";
 import { SafeArea } from "../../components/utility/safe-area.component";
+import { NetworkContext } from "../../services/internetConnectionCheck/internet-network.context";
 
 const Container = styled.View`
   align-items: center;
@@ -19,19 +20,43 @@ const ImageContainer = styled.Image`
   resize-mode: contain;
 `;
 
-export const GPSMapErrorScreen = ({ show, onRetry, isRetrying }) => (
-  <Modal isVisible={show} style={styles.modal} animationInTiming={600}>
-    <View style={styles.modalContainer}>
-      <Text style={styles.modalTitle}>Connection Error</Text>
-      <Text style={styles.modalText}>
-        Oops! Looks like your device is not connected to the Internet.
-      </Text>
-      <Button onPress={onRetry} disabled={isRetrying}>
-        Grant location permission
-      </Button>
-    </View>
-  </Modal>
-);
+export const NoInternetErrorScreen = ({
+  show,
+  onRetry,
+  isRetrying,
+  navigation,
+}) => {
+  const { checkInternetConnection } = useContext(NetworkContext);
+  const handleBackButtonClick = () => {
+    console.log("BACK");
+    navigation.goBack();
+    return true;
+  };
+  React.useEffect(() => {
+    //  grantGPS();
+    // grantGPS();
+    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
+    return () => {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        handleBackButtonClick
+      );
+    };
+  }, []);
+  return (
+    <Modal isVisible={show} style={styles.modal} animationInTiming={600}>
+      <View style={styles.modalContainer}>
+        <Text style={styles.modalTitle}>Connection Error</Text>
+        <Text style={styles.modalText}>
+          Oops! Looks like your device is not connected to the Internet.
+        </Text>
+        <Button onPress={checkInternetConnection} disabled={isRetrying}>
+          Retry
+        </Button>
+      </View>
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   // ...

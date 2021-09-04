@@ -79,14 +79,21 @@ export const AdminProfileScreen = ({ navigation }) => {
             <Spacer>
               <InputController
                 label="Name"
-                rules={{ required: true }}
+                rules={{
+                  required: true,
+                  pattern: /^[a-zA-Z_ ]*$/,
+                }}
                 name="name"
                 divide={false}
                 text={true}
                 control={control}
               />
               {errors.name && (
-                <Text variant="error">Please enter the name</Text>
+                <Text variant="error">
+                  {errors.name.type === "required"
+                    ? "Please enter the name"
+                    : "Please enter only alphabet letters"}
+                </Text>
               )}
             </Spacer>
             <Spacer size="large">

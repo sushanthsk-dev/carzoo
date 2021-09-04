@@ -39,6 +39,7 @@ export const VerifyScreen = ({ navigation, route }) => {
     const res = await verifyResetToken(code, email, role);
     if (res) {
       if (res.status === "success") {
+        setError(null);
         navigation.navigate("ResetPasswordScren", {
           code: res.token,
           role: role,

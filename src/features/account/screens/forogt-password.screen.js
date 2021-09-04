@@ -46,6 +46,7 @@ export const ForgotPasswordScreen = ({ navigation, route }) => {
     console.log("NOOO");
     if (res === "success") {
       toastMessage("5 digit code sent to email address");
+      setError(null);
       navigation.navigate("VerifyScreen", { email: email, role: role });
     }
   };

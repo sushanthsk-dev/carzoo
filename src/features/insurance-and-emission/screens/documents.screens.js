@@ -76,7 +76,7 @@ export const DocumentScreen = ({ navigation }) => {
             insuranceDocument={insuranceDocument}
           />
         )}
-        {emissionDocument == null ? (
+        {emissionDocument === null ? (
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("AddDocumentScreen", { insurance: false })

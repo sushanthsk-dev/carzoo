@@ -5,11 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    // "splash": {
+    //   "image": "./assets/splash.png",
+    //   "resizeMode": "contain",
+    //   "backgroundColor": "#ffffff"
+    // },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -22,7 +22,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "softwareKeyboardLayoutMode": "pan"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBtY_d-XL9hBDWKYJfmz17spRcyzPrjTTg"
+        }
+      },
+      "softwareKeyboardLayoutMode": "pan",
+      "package": "com.sushanthsk.Carzoo"
     },
     "web": {
       "favicon": "./assets/favicon.png"

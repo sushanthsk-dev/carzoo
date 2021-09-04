@@ -215,8 +215,9 @@ export const MyCarScreen = ({ navigation, route }) => {
           <Spacer size="large">
             <InputController
               label="Model Year(Required)*"
-              rules={{ required: true, pattern: /^(199\d|200\d|2021)$/ }}
+              rules={{ required: true }}
               name="modelYear"
+              {...register("modelYear", { min: 1990, max: 2021 })}
               placeValue={setPlaceValue}
               divide={false}
               text={false}

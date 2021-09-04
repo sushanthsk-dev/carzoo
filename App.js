@@ -12,7 +12,7 @@ import {
 import { theme } from "./src/infrastructure/theme";
 import { Navigation } from "./src/infrastructure/navigation";
 import { AuthenticationContextProvider } from "./src/services/authentication/authentication.context";
-import { InternetConnectionCheckContextProvider } from "./src/services/internetConnectionCheck/internetConnectionCheck.context";
+import { NetworkContextProvider } from "./src/services/internetConnectionCheck/internet-network.context";
 
 const SplashImage = styled.Image`
   width: 100%;
@@ -28,7 +28,7 @@ export default function App() {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 4000);
   }, []);
 
   if (!latoLoaded || !montserratLoaded) {
@@ -38,7 +38,7 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <InternetConnectionCheckContextProvider>
+        <NetworkContextProvider>
           <AuthenticationContextProvider>
             {isLoading ? (
               <SplashImage source={require("./assets/splash.png")} />
@@ -46,7 +46,7 @@ export default function App() {
               <Navigation />
             )}
           </AuthenticationContextProvider>
-        </InternetConnectionCheckContextProvider>
+        </NetworkContextProvider>
       </ThemeProvider>
       <StatusBar style="auto" />
     </>
