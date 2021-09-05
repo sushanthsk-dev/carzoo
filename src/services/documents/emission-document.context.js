@@ -100,6 +100,7 @@ export const EmissionDocumentContextProvider = ({ children }) => {
         isLoading,
         isDeleteLoading,
         error,
+        setError,
         createDocument,
         setEmissionDocument,
         getDocument,

@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-
+import * as Location from "expo-location";
 import { ThemeProvider } from "styled-components/native";
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 import {
@@ -25,6 +25,7 @@ export default function App() {
   const [montserratLoaded] = useMontserrat({ Montserrat_400Regular });
 
   useEffect(() => {
+    (async () => await Location.enableNetworkProviderAsync())();
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);

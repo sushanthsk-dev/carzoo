@@ -31,8 +31,11 @@ const setDateFormat = (date) => {
     currentDate.getMonth() < 9
       ? `0${currentDate.getMonth() + 1}`
       : currentDate.getMonth() + 1;
-
-  return `${month}/${currentDate.getDate() - 1}/${currentDate.getFullYear()}`;
+  const day =
+    currentDate.getDate() < 9
+      ? `0${currentDate.getDate() - 1}`
+      : currentDate.getDate() - 1;
+  return `${month}/${day}/${currentDate.getFullYear()}`;
 };
 
 const differenceBetweenDates = (date) => {

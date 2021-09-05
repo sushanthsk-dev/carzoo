@@ -256,7 +256,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     setIsLoading(true);
     let filteredBody = {};
     if (data.email !== user.email) {
-      Object.assign(filteredBody, { email: data.mail });
+      Object.assign(filteredBody, { email: data.email });
     }
 
     if (parseInt(data.phoneno) !== user.phoneno) {
@@ -269,6 +269,7 @@ export const AuthenticationContextProvider = ({ children }) => {
       setIsLoading(false);
       return "success";
     }
+    console.log(filteredBody);
     const url =
       user.role === "user"
         ? `${IPADDRESS}/api/v1/users/updateMe`
@@ -288,17 +289,19 @@ export const AuthenticationContextProvider = ({ children }) => {
         return "success";
       }
     } catch (e) {
+      setError(e.response.data.message);
       console.log("U", e.response.data.message);
 
       setIsLoading(false);
-      setError(e.response.data.message);
     }
   };
 
   const onLogout = () => {
-    setError(null);
-    setUser(null);
     removeSession();
+    setError(null);
+    setTimeout(() => {
+      setUser(null);
+    }, 1000);
   };
   React.useEffect(() => {
     isUserLoggedIn();

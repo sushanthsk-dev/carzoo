@@ -32,6 +32,7 @@ const AddressButton = styled(Button)`
 
 export const AddressScreen = ({ navigation }) => {
   const [loading, setloading] = useState(false);
+  const { user } = useContext(AuthenticationContext);
   const { address, addAddress, isLoading, setAddress, error, setError } =
     useContext(AddressContext);
   const {
@@ -48,9 +49,9 @@ export const AddressScreen = ({ navigation }) => {
       pincode: address ? address.pincode : "574227",
       state: address ? address.state : "",
       phoneno: address
-        ? address.phoneno
-          ? address.phoneno.toString()
-          : ""
+        ? address.phoneno.toString()
+        : user.phoneno
+        ? user.phoneno.toString()
         : "",
     },
   });
@@ -62,9 +63,13 @@ export const AddressScreen = ({ navigation }) => {
     console.log(res);
     if (res === "success") {
       toastMessage("Address added successfully");
+      setError(null);
       navigation.goBack();
     }
   };
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
 
   return (
     <SafeArea>
@@ -143,6 +148,11 @@ export const AddressScreen = ({ navigation }) => {
                 <Text variant="error">Phone number is required</Text>
               )}
             </Spacer>
+            {error !== null && (
+              <Spacer position="top" size="medium">
+                <Text variant="error">{error}</Text>
+              </Spacer>
+            )}
             <Spacer size="four_large">
               {!isLoading ? (
                 <AddressButton

@@ -35,7 +35,8 @@ export const InsuranceDocumentContextProvider = ({ children }) => {
 
         setIsLoading(false);
       } catch (e) {
-        console.log("E", e);
+        console.log("E", e.response.data.message);
+        setError(e.response.data.message);
         setIsLoading(false);
       }
     }
@@ -100,6 +101,7 @@ export const InsuranceDocumentContextProvider = ({ children }) => {
         isLoading,
         isDeleteLoading,
         error,
+        setError,
         createDocument,
         setInsuranceDocument,
         getDocument,

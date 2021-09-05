@@ -21,9 +21,8 @@ const MyProfileContainer = styled.View`
 const ProfileDetails = styled.View``;
 
 export const MyProfileScreen = ({ navigation }) => {
-  const { user, isLoading, updateUserDetails, response } = useContext(
-    AuthenticationContext
-  );
+  const { user, isLoading, updateUserDetails, response, error, setError } =
+    useContext(AuthenticationContext);
 
   const {
     register,
@@ -56,6 +55,10 @@ export const MyProfileScreen = ({ navigation }) => {
   const UpdateButton = styled(Button)`
     width: 340px;
   `;
+
+  React.useEffect(() => {
+    () => setError(null);
+  }, []);
   return (
     <SafeArea>
       <Header toLeft={true} title="My Profile" navigation={navigation} />
@@ -104,6 +107,11 @@ export const MyProfileScreen = ({ navigation }) => {
                 <Text variant="error">Please enter the phoneno</Text>
               )}
             </Spacer>
+            {error && (
+              <Spacer position="top" size="larger">
+                <Text variant="error">{error}</Text>
+              </Spacer>
+            )}
             <Spacer size="large">
               {!isLoading ? (
                 <UpdateButton mode="contained" onPress={handleSubmit(onSubmit)}>
