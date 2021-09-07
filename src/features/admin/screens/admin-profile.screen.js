@@ -39,7 +39,7 @@ export const AdminProfileScreen = ({ navigation }) => {
   //   isProfileLoading,
   // } = useContext(ProfileContext);
 
-  const { user, isLoading, updateUserDetails, onLogout } = useContext(
+  const { user, isLoading, updateUserDetails, onLogout, error } = useContext(
     AuthenticationContext
   );
 
@@ -122,7 +122,11 @@ export const AdminProfileScreen = ({ navigation }) => {
                 <Text variant="error">Please enter the email</Text>
               )}
             </Spacer>
-
+            {error && (
+              <Spacer>
+                <Text variant="error">{error}</Text>
+              </Spacer>
+            )}
             <Spacer size="large">
               {!isLoading ? (
                 <UpdateButton mode="contained" onPress={handleSubmit(onSubmit)}>

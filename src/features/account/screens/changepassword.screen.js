@@ -45,7 +45,7 @@ export const ChangePasswordScreen = ({ navigation, route }) => {
   const onChangePassword = ({ password, repeatedPassword }) => {
     onPasswordChange(oldPassword, password, repeatedPassword, id);
   };
-  React.useContext(() => {
+  React.useEffect(() => {
     () => setError(null);
   }, []);
   return (

@@ -61,20 +61,12 @@ export const PeriodicServiceDetails = ({ route, navigation }) => {
 
   const { servicePlan } = route.params;
 
-  const images = [
-    "https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-    "https://images.unsplash.com/photo-1485550409059-9afb054cada4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=701&q=80",
-    "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-    "https://images.unsplash.com/photo-1429087969512-1e85aab2683d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-    "https://images.unsplash.com/photo-1505678261036-a3fcc5e884ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-  ];
-
   return (
     <SafeArea>
       <Header title={servicePlan.title} toLeft={true} navigation={navigation} />
       <PeriodicServiceScrollView>
         <ImageCarousel>
-          <Carousel images={images} />
+          <Carousel images={servicePlan.images} />
         </ImageCarousel>
         <PeriodicServiceDetailsTopContainer>
           <Spacer position="none">

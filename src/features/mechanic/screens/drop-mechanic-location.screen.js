@@ -59,13 +59,15 @@ const MechanicMap = ({ navigation, route }) => {
         setErrorMsg("Permission to access location was denied");
         return null;
       }
-      if (route.params.location) {
-        const [lng, lat] = route.params.location;
-        setIsGPSEnabled(true);
-        setCurrentLocation({
-          latitude: lat,
-          longitude: lng,
-        });
+      if (route.params) {
+        if (route.params.location) {
+          const [lng, lat] = route.params.location;
+          setIsGPSEnabled(true);
+          setCurrentLocation({
+            latitude: lat,
+            longitude: lng,
+          });
+        }
       } else {
         setIsGPSEnabled(true);
         let location = await CurrentLocation.getLastKnownPositionAsync();
@@ -102,7 +104,9 @@ const MechanicMap = ({ navigation, route }) => {
           <Header
             title="Drop current location"
             navigation={navigation}
-            toLeft={route.params.location ? true : false}
+            toLeft={
+              route.params ? (route.params.location ? true : false) : false
+            }
           />
           <Map
             region={{
@@ -145,6 +149,7 @@ const MechanicMap = ({ navigation, route }) => {
 
 export const DropMechanicLocationScreen = ({ navigation, route }) => {
   // const { location } = useContext(LocationContext);
+  console.log(route);
   const location = true;
   if (!location) {
     return (
