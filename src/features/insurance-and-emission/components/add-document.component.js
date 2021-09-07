@@ -122,12 +122,12 @@ export const AddInsuranceDocument = ({ navigation }) => {
   const setDateFormat = (date) => {
     const currentDate = new Date(date);
     const month =
-      currentDate.getMonth() < 9
+      currentDate.getMonth() <= 9
         ? `0${currentDate.getMonth() + 1}`
         : currentDate.getMonth() + 1;
 
     const day =
-      currentDate.getDate() < 9
+      currentDate.getDate() <= 9
         ? `0${currentDate.getDate()}`
         : currentDate.getDate();
     setExpiryDate(`${month}/${day}/${currentDate.getFullYear()}`);
@@ -159,7 +159,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
     setMiniumDate();
     if (insuranceDocument !== null) {
       const d = new Date(insuranceDocument.expiryDate);
-      d.setDate(d.getDate() - 1);
+      // d.setDate(d.getDate() - 1);
       setDateFormat(d);
     }
     () => setError(null);
@@ -171,6 +171,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
           label="Insurance Company Name(Required)*"
           rules={{ required: true, pattern: /^[a-zA-Z0-9_ ]*$/ }}
           name="insuranceCompanyName"
+          placeholder="Oriental"
           placeValue={setPlaceValue}
           divide={false}
           text={true}
@@ -192,6 +193,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
             pattern: /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/,
           }}
           name="registrationNo"
+          placeholder="KA20HA2021"
           placeValue={setPlaceValue}
           divide={false}
           text={true}
@@ -213,6 +215,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
             pattern: /[0-9]{6}\/[0-9]{2}\/[0-9]{4}\/[0-9]{4}$/,
           }}
           name="policyNo"
+          placeholder="e.g 192939/28/2021/2222"
           placeValue={setPlaceValue}
           divide={false}
           text={true}
@@ -231,6 +234,7 @@ export const AddInsuranceDocument = ({ navigation }) => {
           label="Insured's name(Required)*"
           rules={{ required: true, pattern: /^[a-zA-Z_ ]*$/ }}
           name="insuredName"
+          placeholder="e.g Virat"
           placeValue={setPlaceValue}
           divide={false}
           text={true}
@@ -347,7 +351,7 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
         emissionDocument !== null
           ? emissionDocument.registrationNo
           : "KA21HA2021",
-      puucNo: emissionDocument !== null ? emissionDocument.puucNo : "43666326",
+      puucNo: emissionDocument !== null ? emissionDocument.puucNo : "P43666326",
       customerName:
         emissionDocument !== null ? emissionDocument.customerName : "Virat",
       expiryDate: emissionDocument !== null ? emissionDocument.expiryDate : "",
@@ -419,7 +423,7 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
     setMiniumDate();
     if (emissionDocument !== null) {
       const d = new Date(emissionDocument.expiryDate);
-      d.setDate(d.getDate() - 1);
+      // d.setDate(d.getDate() - 1);
       setDateFormat(d);
     }
     () => setError(null);
@@ -430,6 +434,7 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
       <Spacer size="large">
         <InputController
           label="Vehicle Reg No(Required)*"
+          placeholder="e.g KA21HA2021"
           rules={{ required: true }}
           name="registrationNo"
           placeValue={setPlaceValue}
@@ -438,21 +443,30 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
           control={control}
         />
         {errors.regNo && (
-          <Text variant="error">Please enter the vehicle reg no</Text>
+          <Text variant="error">
+            {errors.regNo.type === "required"
+              ? "Please enter the reg no"
+              : "Please enter valid registration no"}
+          </Text>
         )}
       </Spacer>
       <Spacer size="large">
         <InputController
           label="PUUC No(Required)*"
-          rules={{ required: true }}
+          rules={{ required: true, pattern: /^[a-z0-9]+$/i }}
           name="puucNo"
+          placeholder="e.g P43666326"
           placeValue={setPlaceValue}
           divide={false}
           text={true}
           control={control}
         />
         {errors.puucNo && (
-          <Text variant="error">Please enter the puuc number</Text>
+          <Text variant="error">
+            {errors.puucNo.type === "required"
+              ? "Please enter the puuc number"
+              : "Please enter a valid puuc NO"}
+          </Text>
         )}
       </Spacer>
       <Spacer size="larger">
@@ -460,6 +474,7 @@ export const AddEmissionDocument = ({ emission = false, navigation }) => {
           label="Customer name(Required)*"
           rules={{ required: true, pattern: /^[a-zA-Z_ ]*$/ }}
           name="customerName"
+          placeholder="e.g Virat"
           placeValue={setPlaceValue}
           divide={false}
           text={true}

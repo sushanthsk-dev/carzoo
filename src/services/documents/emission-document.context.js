@@ -36,6 +36,7 @@ export const EmissionDocumentContextProvider = ({ children }) => {
         setIsLoading(false);
       } catch (e) {
         console.log("E", e.response.data);
+        setError(e.response.data.message);
         setIsLoading(false);
       }
     }

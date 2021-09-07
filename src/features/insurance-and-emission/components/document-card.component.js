@@ -28,13 +28,13 @@ const Body = styled.View`
 const setDateFormat = (date) => {
   const currentDate = new Date(date);
   const month =
-    currentDate.getMonth() < 9
+    currentDate.getMonth() <= 9
       ? `0${currentDate.getMonth() + 1}`
       : currentDate.getMonth() + 1;
   const day =
-    currentDate.getDate() < 9
-      ? `0${currentDate.getDate() - 1}`
-      : currentDate.getDate() - 1;
+    currentDate.getDate() <= 9
+      ? `0${currentDate.getDate()}`
+      : currentDate.getDate();
   return `${month}/${day}/${currentDate.getFullYear()}`;
 };
 
@@ -86,7 +86,7 @@ export const InsuranceDocumentCard = ({ navigation, insuranceDocument }) => {
           <Text variant="error">
             {`Your insurance document will expire in ${differenceBetweenDates(
               insuranceDocument.expiryDate
-            )}days`}
+            )}${remainingExpiryDate === 1 ? "day" : "days"}`}
           </Text>
         ) : (
           <Text variant="error">Your insurance document expired</Text>
@@ -136,7 +136,7 @@ export const EmissionDocumentCard = ({ navigation, emissionDocument }) => {
           <Text variant="error">
             {`Your emission document will expire in ${differenceBetweenDates(
               emissionDocument.expiryDate
-            )}days`}
+            )}${remainingExpiryDate === 1 ? "day" : "days"}`}
           </Text>
         ) : (
           <Text variant="error">Your emission document expired</Text>

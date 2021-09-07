@@ -205,6 +205,7 @@ export const MyCarScreen = ({ navigation, route }) => {
                 pattern: /^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/,
               }}
               name="registrationNo"
+              placeholder="e.g KA21HA2021"
               placeValue={setPlaceValue}
               divide={false}
               text={true}
