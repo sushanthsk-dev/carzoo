@@ -152,7 +152,7 @@ export const OrderSummary = ({ navigation, route }) => {
             </Spacer>
             <ServiceStatusContainer>
               <Text variant="subHead">Service Status</Text>
-              <ServiceStatus orderStatus={order.carDetails.orderStatus} />
+              <ServiceStatus orderStatus={order.orderStatus} />
             </ServiceStatusContainer>
             {order.deliveriedDate && (
               <>

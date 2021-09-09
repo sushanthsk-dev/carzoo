@@ -87,19 +87,8 @@ export const CartScreen = ({ route, navigation }) => {
   let toLeftBoolean = false;
   const { toLeft, servicePlan } = route.params;
   toLeftBoolean = toLeft === true ? true : false;
-  const handleBackButtonClick = () => {
-    navigation.popToTop();
-    return true;
-  };
-  React.useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        "hardwareBackPress",
-        handleBackButtonClick
-      );
-    };
-  }, []);
+
+  React.useEffect(() => {}, []);
   return (
     <SafeArea>
       <Header title="Cart" toLeft={toLeftBoolean} navigation={navigation} />

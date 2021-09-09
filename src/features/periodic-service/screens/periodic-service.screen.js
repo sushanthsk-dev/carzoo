@@ -4,6 +4,7 @@ import { ScrollView, TouchableOpacity, BackHandler } from "react-native";
 import styled from "styled-components/native";
 import { CartFloat } from "../../../components/cart/cart-float.component";
 import { Header } from "../../../components/header/header.component";
+import { LoadingDiv } from "../../../components/loading/loading.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { Text } from "../../../components/typography/text.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -33,26 +34,16 @@ const ScrollViewContainer = styled(ScrollView)`
   margin-top: 56px;
 `;
 export const PeriodicServiceScreen = ({ navigation }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-  const { periodicServicePlans } = useContext(PeriodicServiceContext);
+  const { periodicServicePlans, isLoading, retrievePeriodicService } =
+    useContext(PeriodicServiceContext);
 
   const context = React.useContext(NetworkContext);
   const { cart } = useContext(CartContext);
 
-  const handleBackButtonClick = () => {
-    navigation.popToTop();
-    return true;
-  };
   React.useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", handleBackButtonClick);
-    return () => {
-      BackHandler.removeEventListener(
-        "hardwareBackPress",
-        handleBackButtonClick
-      );
-    };
+    retrievePeriodicService();
   }, []);
-  return (
+  return !isLoading ? (
     <SafeArea>
       {context.isConnected && (
         <NoInternetErrorScreen show={true} navigation={navigation} />
@@ -91,5 +82,7 @@ export const PeriodicServiceScreen = ({ navigation }) => {
         </PeriodicServiceContainer>
       </ScrollViewContainer>
     </SafeArea>
+  ) : (
+    <LoadingDiv />
   );
 };
